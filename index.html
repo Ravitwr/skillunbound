@@ -42,7 +42,7 @@
       <a href="#/tools">Tools</a>
       <a href="#/about">About</a>
     </nav>
-    <button class="theme-toggle" id="themeToggle" type="button"><span class="theme-toggle-icon" aria-hidden="true">◐</span><span id="themeLabel">Ivory</span></button>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme"><span class="theme-toggle-icon" aria-hidden="true">☾</span></button>
     <a class="button button-primary header-cta" href="#/roadmap">Build my roadmap</a>
   </header>
 
@@ -51,17 +51,21 @@
   </main>
 
   <footer class="site-footer">
-    <div>
-      <a class="brand footer-brand" href="#/"><span class="brand-mark" aria-hidden="true">↗</span><span>skill<strong>unbound</strong></span><span class="brand-dot">.</span></a>
-      <p>Free learning paths. Public sources. Real evidence.</p>
+    <div class="shell footer-shell">
+      <div class="footer-top">
+        <a class="brand footer-brand" href="#/" aria-label="Skill Unbound home"><span class="brand-mark" aria-hidden="true">↗</span><span>skill<strong>unbound</strong></span><span class="brand-dot">.</span></a>
+        <nav aria-label="Footer navigation">
+          <a href="#/paths">Catalog</a>
+          <a href="#/tools">Local tools</a>
+          <a href="#/credits">Credits</a>
+          <a href="#/privacy">Privacy</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>Free learning paths. Public sources. Real evidence.</p>
+        <p>© <span id="year"></span> Skill Unbound.</p>
+      </div>
     </div>
-    <nav aria-label="Footer navigation">
-      <a href="#/paths">Catalog</a>
-      <a href="#/tools">Local tools</a>
-      <a href="#/credits">Credits</a>
-      <a href="#/privacy">Privacy</a>
-    </nav>
-    <p>© <span id="year"></span> Skill Unbound. Original curricula and interface.</p>
   </footer>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <noscript><p class="noscript">Skill Unbound needs JavaScript for filtering, local progress, and browser tools. The linked learning resources remain public.</p></noscript>

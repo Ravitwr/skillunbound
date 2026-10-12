@@ -20,14 +20,13 @@
     document.documentElement.style.colorScheme = selected;
     document.querySelector('#themeColor')?.setAttribute('content', selected === 'dark' ? '#151819' : '#f2eee5');
     const toggle = document.querySelector('#themeToggle');
-    const label = document.querySelector('#themeLabel');
     if (toggle) {
-      const nextName = selected === 'dark' ? 'Ivory' : 'Charcoal';
+      const nextName = selected === 'dark' ? 'light' : 'dark';
       toggle.setAttribute('aria-label', `Switch to ${nextName} theme`);
-      toggle.setAttribute('aria-pressed', String(selected === 'dark'));
       toggle.title = `Switch to ${nextName} theme`;
+      const icon = toggle.querySelector('.theme-toggle-icon');
+      if (icon) icon.textContent = selected === 'dark' ? '☀' : '☾';
     }
-    if (label) label.textContent = selected === 'dark' ? 'Charcoal' : 'Ivory';
     if (persist) {
       try { localStorage.setItem(themeKey, selected); } catch {}
     }
