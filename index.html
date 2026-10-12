@@ -1,13 +1,60 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1020"><meta name="description" content="Your way into technology. Free learning roadmaps, curated resources and hands-on assignments."><title>Skill Unbound — Learn tech by making things</title><link rel="canonical" href="https://skillunbound.dev/"><link rel="stylesheet" href="styles.css"></head>
-<body><div class="ambient"></div><header class="topbar"><a class="brand" href="#home" aria-label="Skill Unbound home"><span class="mark">↗</span> skill<span>unbound</span><span class="brand-dot">.</span></a><nav id="nav"><a href="#paths">Learning paths</a><a href="#roadmap">My roadmap</a><a href="#assignments">Assignments</a><a href="#tools">Tools</a><a href="#community">Community</a></nav><div class="nav-actions"><span class="free-pill">✦ Free to explore</span><button class="btn small primary" data-open-planner>Find my path ↗</button><button id="menu" aria-label="Toggle menu">☰</button></div></header>
-<main><section id="home" class="hero wrap"><div class="eyebrow"><span class="live-dot"></span> AN OPEN LEARNING COMMUNITY <span class="eyebrow-rule"></span> BUILT FOR THE CURIOUS</div><div class="hero-grid"><div><h1>Don't just learn tech.<br><em>Make something</em><br>that matters<span class="period">.</span></h1><p class="lede">A learning path shaped around <strong>you</strong>. The best free resources, practical challenges, and real projects—across software, AI, robotics, and beyond.</p><div class="hero-actions"><button class="btn primary big" data-open-planner>Build my free roadmap <span>↗</span></button><a class="btn ghost big" href="#paths">Explore learning paths <span>→</span></a></div><div class="social-proof"><div class="mini-icons"><span>⌘</span><span>⟡</span><span>◈</span></div><span><b>No paywall to start.</b> Just curiosity and commitment.</span></div></div><div class="hero-panel"><div class="panel-top"><span><span class="live-dot"></span> YOUR LEARNING SPACE</span><span>PREVIEW / 01</span></div><div class="profile-head"><div class="profile-avatar">✳</div><div><span class="tiny-overline">PERSONALIZED PATH</span><h3>AI Builder Track</h3><span class="muted">Built around your goals</span></div><span class="chip">In progress</span></div><div class="panel-progress"><div class="between"><span>Journey progress</span><strong>38%</strong></div><div class="bar"><div style="width:38%"></div></div></div><div class="timeline"><div class="timeline-item done"><span class="tl-icon">✓</span><div><small>01 · FOUNDATION</small><strong>Python & APIs</strong><span>Skills unlocked</span></div><span class="tl-right">DONE</span></div><div class="timeline-item active"><span class="tl-icon">↗</span><div><small>02 · BUILD</small><strong>Your first RAG app</strong><span>Video + hands-on challenge</span></div><span class="tl-right">NOW</span></div><div class="timeline-item"><span class="tl-icon">○</span><div><small>03 · SHIP</small><strong>Deploy your AI project</strong><span>Put your learning into the world</span></div><span class="tl-right">NEXT</span></div></div><div class="panel-footer">REAL SKILLS <span>✳</span> REAL PROJECTS <span>✳</span> YOUR PACE</div></div></div><div class="hero-bottom"><span>LEARN DIFFERENTLY</span><span>↓ SCROLL TO EXPLORE</span></div></section>
-<section class="ticker"><div>LESS WATCHING <span>✳</span> MORE MAKING <span>✳</span> YOUR OWN ROADMAP <span>✳</span> REAL-WORLD PROJECTS <span>✳</span> NO GATEKEEPING <span>✳</span> LESS WATCHING <span>✳</span> MORE MAKING <span>✳</span></div></section>
-<section id="paths" class="section wrap"><div class="section-heading"><div><span class="kicker">01 / THE STARTING POINT</span><h2>Find your <i>next direction.</i></h2><p>No generic one-size-fits-all curriculum. Pick a direction, then make it yours.</p></div><button class="text-link" data-open-planner>Personalize my path ↗</button></div><div class="filters"><div class="pills" id="pathFilters"></div><input id="pathSearch" class="search" placeholder="⌕  Search learning paths" aria-label="Search learning paths"></div><div class="cards" id="pathCards"></div></section>
-<section id="roadmap" class="section alternate"><div class="wrap planner-layout"><div class="planner-text"><span class="kicker">02 / YOUR WAY FORWARD</span><h2>Not another<br><i>generic roadmap.</i></h2><p>Tell us where you're starting, where you want to go, and how much time you've got. We'll shape a practical schedule with checkpoints you can actually finish.</p><div class="value-list"><div><span>01</span><strong>Start at your level</strong><small>Skip what you already know.</small></div><div><span>02</span><strong>Learn from existing resources</strong><small>Good material, not another expensive course.</small></div><div><span>03</span><strong>Prove it with projects</strong><small>Every milestone leads to something real.</small></div></div></div><div class="planner-card" id="plannerCard"><div class="between"><span class="kicker">YOUR ROADMAP BUILDER</span><span class="chip">Free · On-device</span></div><h3>Let's make a plan.</h3><label for="goal">I want to learn</label><select id="goal"></select><div class="two-fields"><div><label for="level">My experience</label><select id="level"><option value="beginner">Just starting out</option><option value="some">Know the basics</option><option value="experienced">Already a developer</option></select></div><div><label for="hours">Hours each week</label><select id="hours"><option value="3">3 hours</option><option value="5" selected>5 hours</option><option value="8">8 hours</option><option value="12">12 hours</option><option value="20">20 hours</option></select></div></div><label for="projectInterest">What do you want to build? <span class="optional">optional</span></label><input id="projectInterest" placeholder="e.g. an AI research assistant"><button id="generate" class="btn primary full">Generate my roadmap <span>↗</span></button><p class="footnote">No account required. Your plan and progress stay in this browser.</p></div></div><div class="wrap"><div id="generatedPlan" class="generated hidden"></div></div></section>
-<section id="assignments" class="section wrap"><div class="section-heading"><div><span class="kicker">03 / PRACTICE OVER THEORY</span><h2>Less consuming.<br><i>More creating.</i></h2><p>Well-scoped engineering challenges with deliverables, acceptance criteria, and room to go further.</p></div><span class="outline-counter">THE ASSIGNMENT LAB / 06</span></div><div class="assign-grid" id="assignCards"></div></section>
-<section id="tools" class="section dark-section"><div class="wrap"><div class="section-heading"><div><span class="kicker">04 / YOUR TOOLBOX</span><h2>Small tools.<br><i>Big momentum.</i></h2><p>Useful browser-based utilities to support your learning. No login required.</p></div></div><div class="tool-grid"><article class="tool"><span class="tool-symbol">{ }</span><h3>JSON Formatter</h3><p>Format and validate JSON instantly.</p><button class="text-link" data-tool="json">Open tool ↗</button></article><article class="tool"><span class="tool-symbol">⌘</span><h3>Base64 Lab</h3><p>Encode and decode text right in your browser.</p><button class="text-link" data-tool="base64">Open tool ↗</button></article><article class="tool"><span class="tool-symbol">#</span><h3>Word Counter</h3><p>Count words and characters as you type.</p><button class="text-link" data-tool="words">Open tool ↗</button></article><article class="tool"><span class="tool-symbol">✓</span><h3>Progress Tracker</h3><p>Return to your roadmap and check off milestones.</p><button class="text-link" onclick="document.querySelector('#roadmap').scrollIntoView({behavior:'smooth'})">My progress ↗</button></article></div><div id="toolPanel" class="tool-panel hidden"><div class="between"><h3 id="toolTitle">Tool</h3><button class="icon-btn" id="closeTool" aria-label="Close tool">✕</button></div><textarea id="toolInput" rows="5" placeholder="Paste text here..."></textarea><div class="tool-controls"><button class="btn primary" id="toolRun">Run tool ↗</button><button class="btn ghost" id="toolCopy">Copy output</button></div><pre id="toolOutput" aria-live="polite">Your result will appear here.</pre></div></div></section>
-<section id="community" class="section wrap"><div class="community-layout"><div><span class="kicker">05 / BETTER TOGETHER</span><h2>Built for learners.<br><i>Made by builders.</i></h2><p>Education should be open, practical, and collaborative. Follow free roadmaps, contribute learning resources, share your work, and help someone else take their next step.</p><div class="hero-actions"><a class="btn primary" href="https://github.com" target="_blank" rel="noopener">Explore open source ↗</a><a class="btn ghost" href="mailto:hello@skillunbound.dev?subject=Contribute%20to%20Skill Unbound">Become a contributor →</a></div><small class="muted">Community links are placeholders until your GitHub organization and email are configured.</small></div><div class="community-art"><div class="community-orbit orbit-one"></div><div class="community-orbit orbit-two"></div><div class="center-glyph">✳</div><span class="orbit-label label-a">LEARN</span><span class="orbit-label label-b">BUILD</span><span class="orbit-label label-c">SHARE</span><span class="orbit-label label-d">GROW</span></div></div></section>
-<section class="cta-band"><div class="wrap cta-inner"><div><span class="kicker">THIS IS YOUR SIGN</span><h2>Your next chapter<br>starts with <i>one project.</i></h2></div><button class="btn white big" data-open-planner>Start learning for free ↗</button></div></section></main>
-<footer class="footer"><div class="wrap footer-grid"><div><a class="brand" href="#home"><span class="mark">↗</span> skill<span>unbound</span><span class="brand-dot">.</span></a><p>An open space to learn technology your way.<br>Find a path. Build something real.</p></div><div><h4>Explore</h4><a href="#paths">Learning paths</a><a href="#roadmap">Roadmap builder</a><a href="#assignments">Assignments</a><a href="#tools">Tools</a></div><div><h4>Community</h4><a href="#community">Our philosophy</a><a href="https://github.com" target="_blank" rel="noopener">GitHub</a><a href="mailto:hello@skillunbound.dev">Get in touch</a></div><div><h4>Stay curious</h4><p>Free resources. Real progress.</p><span class="footer-note">No tracking, no sign-up, no nonsense.</span></div></div><div class="wrap footer-bottom"><span>© <span id="year"></span> Skill Unbound · Learn by building</span><span>MADE FOR THE CURIOUS ↗</span></div></footer>
-<dialog id="detail"><div class="dialog-inner"><button class="icon-btn close-dialog" aria-label="Close dialog">✕</button><div id="detailContent"></div></div></dialog><script src="app.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e8">
+  <meta name="description" content="Free, project-based technology learning paths with verified public resources and evidence-based progress.">
+  <meta property="og:title" content="Skill Unbound — Learn by building">
+  <meta property="og:description" content="Choose a path, build real work, and keep the evidence.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://skillunbound.dev/">
+  <meta property="og:image" content="https://skillunbound.dev/og-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://skillunbound.dev/og-card.png">
+  <link rel="canonical" href="https://skillunbound.dev/">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>Skill Unbound — Learn by building</title>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","name":"Skill Unbound","url":"https://skillunbound.dev/","description":"A free-first, project-based technical learning platform."}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#/" aria-label="Skill Unbound home"><span class="brand-mark" aria-hidden="true">↗</span><span>skill<strong>unbound</strong></span><span class="brand-dot">.</span></a>
+    <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav id="primaryNav" aria-label="Primary navigation">
+      <a href="#/paths">Learning paths</a>
+      <a href="#/roadmap">My roadmap</a>
+      <a href="#/tools">Tools</a>
+      <a href="#/about">About</a>
+    </nav>
+    <a class="button button-primary header-cta" href="#/roadmap">Build my roadmap</a>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="loading-state" aria-live="polite">Loading Skill Unbound…</div>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <a class="brand footer-brand" href="#/"><span class="brand-mark" aria-hidden="true">↗</span><span>skill<strong>unbound</strong></span><span class="brand-dot">.</span></a>
+      <p>Free learning paths. Public sources. Real evidence.</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <a href="#/paths">Catalog</a>
+      <a href="#/tools">Local tools</a>
+      <a href="#/credits">Credits</a>
+      <a href="#/privacy">Privacy</a>
+    </nav>
+    <p>© <span id="year"></span> Skill Unbound. Original curricula and interface.</p>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">Skill Unbound needs JavaScript for filtering, local progress, and browser tools. The linked learning resources remain public.</p></noscript>
+  <script src="youtube-data.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Skill Unbound — Learn by building</title>
+  <desc id="description">An editorial green and cream social card for Skill Unbound.</desc>
+  <rect width="1200" height="630" fill="#f4f1e8"/>
+  <circle cx="1035" cy="86" r="260" fill="#d8f56a" opacity=".72"/>
+  <circle cx="1040" cy="552" r="300" fill="#7857ff" opacity=".14"/>
+  <rect x="70" y="66" width="58" height="58" rx="15" fill="#7857ff"/>
+  <text x="99" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="42" font-weight="800" fill="#ffffff">↗</text>
+  <text x="148" y="108" font-family="system-ui,sans-serif" font-size="38" font-weight="800" fill="#17211b">skillunbound.</text>
+  <text x="72" y="294" font-family="system-ui,sans-serif" font-size="82" font-weight="850" letter-spacing="-4" fill="#17211b">Learn the skill.</text>
+  <text x="72" y="390" font-family="system-ui,sans-serif" font-size="82" font-weight="850" letter-spacing="-4" fill="#7857ff">Build the evidence.</text>
+  <text x="76" y="478" font-family="system-ui,sans-serif" font-size="28" fill="#47564c">50 project-led curricula · verified public sources · local progress</text>
+  <rect x="76" y="526" width="344" height="50" rx="25" fill="#1f6b4f"/>
+  <text x="248" y="560" text-anchor="middle" font-family="system-ui,sans-serif" font-size="21" font-weight="750" fill="#ffffff">YOUR ROADMAP. YOUR PACE.</text>
+</svg>

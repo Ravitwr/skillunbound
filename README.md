@@ -1,54 +1,68 @@
-# Skill Unbound — static learning platform MVP
+# Skill Unbound
 
-An original, responsive static site inspired by the **category of features** found in technical learning platforms. **Not** an authorized clone of Dropout Developer, and none of its branding, proprietary lesson texts, or UI assets are included.
+Skill Unbound is a free-first, project-based technical learning catalog. It links to public learning material with attribution, adds original outcomes and assignments, and requires portfolio evidence before a milestone counts as complete.
 
-## What's working
-- Public learning-path directory: category filtering and search, nine original track summaries, external official learning resources.
-- Custom roadmap planner: goal, experience, available hours, and project preference. Rule-based milestone scheduling (not AI); all saved in browser localStorage.
-- Project assignment catalog: six original detailed exercises, requirements, stretch goals, copy assignment, GitHub link.
-- Tools: JSON formatter, Base64 encode/decode, word and character counter.
-- Progress tracking: interactive completion checkboxes, downloadable and copyable plan.
-- Responsive navigation, community section, accessibility basics, SEO description.
+## Implemented launch scope
 
-## Not implemented (requires backend/integrations)
-- Actual AI-generated curricula or intelligent skill assessment
-- User accounts / cross-device sync
-- GitHub submission ingestion, test sandbox or automated AI code review
-- Real community forum or contributor workflow
-- Exam verification, certificates, payments, mentors, newsletters
-- Search across YouTube, verified dynamic videos, comprehensive 30+ developer utilities
+- 42 curated technical learning paths from the ClickUp launch batch.
+- 367 existing public YouTube lessons audited from the corresponding Dropout Developer paths, distributed across the curricula as lazy-loaded privacy-enhanced embeds.
+- 8 original Skill Unbound courses, bringing the catalog to 50 items.
+- Search and filters for category and content type.
+- Path pages with prerequisites, outcomes, build deliverables, checkpoints, source provenance, and capstones.
+- Local enrollment and evidence-based progress. Merely opening a resource cannot complete a milestone.
+- Personal roadmap generator using real path milestones, experience, hours, target timeline, goal, and project interest.
+- Blind 75 and NeetCode 150 practice trackers with local progress and export.
+- Public GitHub profile scorer with a visible 100-point rubric and downloadable SVG badge.
+- Speech playground using installed voices or an optional self-hosted Piper-compatible endpoint.
+- Tutorial voiceover planner with timed segments, local rehearsal, and text export.
+- Responsive navigation, reduced-motion support, keyboard focus, semantic landmarks, metadata, robots.txt, sitemap, and a service worker.
+- Contributor guidance, a resource-correction issue form, and a pull-request checklist.
 
-## Deploy to Cloudflare Pages
-1. Sign in to Cloudflare Dashboard → **Workers & Pages** → **Create application** → **Pages** → **Upload assets**.
-2. Upload the files in this directory (or the extracted ZIP) with `index.html` at the top level. Deploy.
-3. Pages project → **Custom domains** → **Set up a custom domain** → choose your purchased Cloudflare domain. Follow prompts.
-4. Confirm HTTPS works, then optionally add `www` redirect.
+## Honest boundaries
 
-**No build step required.** Works as plain HTML/CSS/JavaScript. For local preview, open index.html or serve with `python3 -m http.server 8000`.
+This repository is a static public MVP. It does **not** claim to provide accounts, cross-device sync, managed AI generation, automated code review, real credentials, mentor access, payments, or a production content-admin workflow. Those features require a backend, security/privacy review, and operations work.
 
-## Before going live
-- Brand and canonical website are set to **Skill Unbound** and `https://skillunbound.dev`.
-- Replace `hello@skillunbound.dev` with your configured inbox, and `https://github.com` community placeholders with your own GitHub organization.
-- Review the learning resources and assignment difficulty before public release.
-- Add your actual legal/privacy pages and any consent-dependent analytics once needed.
-- Verify domain/trademark rights for your chosen name.
+The “neural TTS” tool does not pretend that every browser voice is neural or local. It labels browser/OS voices as reported by the platform and supports a user-configured self-hosted Piper-compatible endpoint for open-source neural synthesis.
 
-## Repo layout
-- `index.html` — main site and sections
-- `styles.css` — responsive visual design
-- `app.js` — original catalog data and client-side interactions
+## Run locally
 
-## GitHub setup and Cloudflare Pages
-
-Create a new GitHub repository named `skillunbound` and push with:
+No build step or dependency install is required.
 
 ```bash
-git init
-git add .
-git commit -m "Initial Skill Unbound static website"
-git branch -M main
-gh auth login
-gh repo create skillunbound --public --source=. --remote=origin --push
+python3 -m http.server 8000
 ```
 
-For an existing Cloudflare Pages project named `skillunbound`, run `bash deploy-cloudflare.sh`. It performs a direct upload; Git pushes will not auto-deploy until you connect the Pages project to GitHub or add GitHub Actions. Avoid exposing personal emails in public content until your inbox is configured.
+Open `http://localhost:8000`.
+
+## Verify
+
+Node.js 20 or newer is recommended.
+
+```bash
+npm test
+npm run check
+```
+
+The tests verify catalog counts, all 42 video inventories and 367 video IDs, independent path structure, source metadata, the five ClickUp tool tasks, and both DSA set sizes.
+
+## Data and privacy
+
+- Roadmaps, enrollment, milestone evidence, and DSA progress use browser local storage.
+- The GitHub scorer calls GitHub’s public API directly after a username is submitted.
+- Browser speech behavior depends on the installed browser/OS voice provider.
+- Piper mode sends text only to the endpoint the user enters.
+- No analytics, advertising, account, or upload code is included.
+
+## Source policy
+
+Dropout Developer path pages provide the inventory of existing public YouTube lessons. Skill Unbound does not copy competitor branding, layouts, lesson summaries, assignments, certificates, or protected assets. It embeds the original YouTube uploads on demand and identifies their publishing creators while adding original milestones, exercises, rubrics, capstones, and evidence gates.
+
+To refresh video titles and metadata from the public Dropout Developer API when it is not rate-limited, run `node scripts/audit-dropout-videos.mjs`. The checked-in catalog keeps the audited video IDs and creators available without a runtime API dependency.
+
+## Deploy to Cloudflare Pages
+
+The project is static. Publish the repository root with no build command. The existing `deploy-cloudflare.sh` remains available for a manual Wrangler upload, but production should connect Cloudflare Pages to the `main` branch so pull requests receive preview deployments and production has a clear rollback history.
+
+## Contribution
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). The repository owner still needs to choose and add a software/content license before third-party reuse should be assumed.

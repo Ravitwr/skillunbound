@@ -1,0 +1,9 @@
+{
+  "name": "Skill Unbound",
+  "short_name": "SkillUnbound",
+  "description": "Free, project-based technical learning paths and local browser tools.",
+  "start_url": "/#/",
+  "display": "standalone",
+  "background_color": "#f4f1e8",
+  "theme_color": "#f4f1e8"
+}

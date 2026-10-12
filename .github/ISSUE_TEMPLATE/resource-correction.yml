@@ -1,0 +1,24 @@
+name: Resource correction
+description: Report a broken, outdated, inaccessible, or poorly attributed learning resource.
+title: "[Resource] "
+labels: [content, resource-review]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Path and milestone
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: Current canonical URL
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What you verified
+      description: Include the date, access state, and a replacement URL when useful. Do not paste protected lesson content.
+    validations:
+      required: true

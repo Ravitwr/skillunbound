@@ -1,31 +1,531 @@
-const paths=[
-{id:'ai',title:'AI Application Engineer',category:'AI & ML',icon:'✳',color:'#e9e4ff',level:'Beginner → Intermediate',weeks:10,description:'Build useful AI products with APIs, embeddings, retrieval, tool calling, and evaluation.',steps:['Python for practical automation','LLM APIs and structured outputs','Embeddings and semantic search','RAG with source citations','Tool calling and agent workflows','Testing, evals and deployment'],project:'Ship a document research assistant with citations',resources:[['Python Tutorial — Official','https://docs.python.org/3/tutorial/'],['Hugging Face LLM Course','https://huggingface.co/learn/llm-course/chapter1/1'],['OpenAI Cookbook','https://cookbook.openai.com/'],['LangChain documentation','https://python.langchain.com/docs/introduction/']]},
-{id:'backend',title:'Backend Engineering',category:'Software',icon:'⌘',color:'#dcf2e9',level:'Beginner',weeks:12,description:'Go from HTTP fundamentals to reliable APIs, databases, authentication, and deployment.',steps:['Git and the command line','HTTP and REST fundamentals','Node.js and TypeScript','PostgreSQL and data modeling','Authentication and API security','Caching, tests and deployment'],project:'Build and deploy a booking API with conflict prevention',resources:[['MDN HTTP Overview','https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview'],['The Odin Project','https://www.theodinproject.com/'],['PostgreSQL Tutorial','https://www.postgresql.org/docs/current/tutorial.html'],['Node.js Learn','https://nodejs.org/en/learn']]},
-{id:'robotics',title:'Robotics From Scratch',category:'Hardware',icon:'⚙',color:'#fff1cf',level:'Beginner',weeks:9,description:'Wire sensors, control motors, and build an autonomous two-wheel robot.',steps:['Electronics safety and components','Arduino and microcontroller basics','Motors and motor drivers','Ultrasonic sensors and feedback','Obstacle avoidance algorithms','Robot testing and improvements'],project:'Create a two-wheel obstacle-avoiding robot',resources:[['Arduino Tutorials','https://docs.arduino.cc/tutorials/'],['Arduino Built-in Examples','https://docs.arduino.cc/built-in-examples/'],['ROS 2 Tutorials','https://docs.ros.org/en/rolling/Tutorials.html']]},
-{id:'frontend',title:'Frontend Development',category:'Software',icon:'◈',color:'#dfeeff',level:'Beginner',weeks:10,description:'Create beautiful, accessible interfaces with HTML, CSS, JavaScript, and React.',steps:['Semantic HTML and accessibility','CSS layout and responsiveness','Modern JavaScript','React components and state','Fetching APIs and error states','Testing and deployment'],project:'Build a responsive project management dashboard',resources:[['MDN Learn Web Development','https://developer.mozilla.org/en-US/docs/Learn_web_development'],['React Learn','https://react.dev/learn'],['web.dev Learn','https://web.dev/learn']]},
-{id:'cloud',title:'Cloud & DevOps',category:'Cloud',icon:'☁',color:'#dff3f7',level:'Intermediate',weeks:10,description:'Package, deploy, secure, and observe an application using modern cloud practices.',steps:['Linux essentials and networking','Docker and container images','CI/CD using GitHub Actions','Cloud deployment concepts','Infrastructure as code','Monitoring and incident response'],project:'Deploy an API with CI/CD and monitoring',resources:[['Docker Get Started','https://docs.docker.com/get-started/'],['GitHub Actions Docs','https://docs.github.com/en/actions'],['Google Cloud Run Docs','https://cloud.google.com/run/docs']]},
-{id:'data',title:'Data Science Foundations',category:'AI & ML',icon:'▥',color:'#ffe7e9',level:'Beginner',weeks:9,description:'Work with data using Python, SQL, statistics, visualization, and real datasets.',steps:['Python and notebooks','Dataframes and cleaning','SQL analysis','Statistics and distributions','Visualization and storytelling','End-to-end data exploration'],project:'Publish a data investigation with reproducible notebooks',resources:[['Kaggle Learn','https://www.kaggle.com/learn'],['Pandas User Guide','https://pandas.pydata.org/docs/user_guide/index.html'],['SQLBolt','https://sqlbolt.com/']]},
-{id:'security',title:'Cybersecurity Essentials',category:'Security',icon:'◇',color:'#eee5ff',level:'Beginner',weeks:8,description:'Understand network basics, common vulnerabilities, web security and defensive thinking.',steps:['Networking and DNS','Linux and permissions','Authentication fundamentals','OWASP Top 10 overview','Threat modeling','Secure application review'],project:'Perform a documented security review of a demo app',resources:[['OWASP Top 10','https://owasp.org/www-project-top-ten/'],['PortSwigger Web Security Academy','https://portswigger.net/web-security'],['MDN Web Security','https://developer.mozilla.org/en-US/docs/Web/Security']]},
-{id:'agents',title:'Build AI Agents',category:'AI & ML',icon:'⟡',color:'#e8edfe',level:'Intermediate',weeks:8,description:'Create tool-using agents that solve multi-step tasks reliably, safely, and observably.',steps:['LLM tool-calling concepts','Structured inputs and validation','Orchestrated workflows','Retrieval as a tool','MCP client-server concepts','Observability, evals and deployment'],project:'Ship a tool-using research workflow with evaluation',resources:[['Model Context Protocol','https://modelcontextprotocol.io/introduction'],['OpenAI Cookbook','https://cookbook.openai.com/'],['LangGraph Documentation','https://langchain-ai.github.io/langgraph/']]},
-{id:'electronics',title:'Electronics for Makers',category:'Hardware',icon:'⚡',color:'#fff0d5',level:'Beginner',weeks:8,description:'Learn circuits, measurements, sensors, and microcontrollers through physical builds.',steps:['Voltage, current and resistance','Breadboards and measuring safely','LEDs, resistors and buttons','Sensor input','Microcontroller programming','Prototype a useful device'],project:'Make a sensor-powered desk gadget',resources:[['SparkFun Tutorials','https://learn.sparkfun.com/tutorials'],['Arduino Docs','https://docs.arduino.cc/']]}
-];
-const assignments=[
-{id:'booking',title:'The double-booking bug',category:'Backend',difficulty:'INTERMEDIATE',time:'4–6 hours',description:'Two people reserve the last available vehicle at once. Keep the system correct under concurrency.',objective:'Create an API that safely rejects overlapping vehicle bookings even under concurrent requests.',requirements:['Create REST endpoints to request and view bookings','Store bookings with start and end timestamps','Prevent overlapping confirmed reservations','Demonstrate concurrency safety with automated tests','Document the tradeoffs behind your solution'],stretch:'Add idempotency keys and cancellation handling.',skills:'APIs, SQL, transactions, concurrency'},
-{id:'rag',title:'Answers with receipts',category:'AI',difficulty:'INTERMEDIATE',time:'5–8 hours',description:'Build a document chatbot that can point to the actual source of every factual answer.',objective:'Build a document Q&A service that retrieves supporting passages and cites them.',requirements:['Upload and process at least five sample documents','Implement retrieval and answer generation','Show source passage references in responses','Handle unsupported questions without inventing facts','Create an evaluation set with at least ten questions'],stretch:'Compare retrieval quality for two chunking strategies.',skills:'Embeddings, RAG, evaluation'},
-{id:'robot',title:'The obstacle dodger',category:'Robotics',difficulty:'BEGINNER',time:'6–10 hours',description:'Build a two-wheeled robot that changes course when its sensor detects an obstacle.',objective:'Demonstrate autonomous obstacle avoidance on a simple mobile platform.',requirements:['Wire a controller, motor driver, and distance sensor','Drive forward and turn reliably','Stop or reroute below a safe distance threshold','Record a short demonstration of three obstacle tests','Draw a wiring diagram and explain your control loop'],stretch:'Implement smoother turning with PWM speed control.',skills:'Arduino, sensors, motor control'},
-{id:'frontend',title:'Make a dashboard feel alive',category:'Frontend',difficulty:'BEGINNER',time:'3–5 hours',description:'Turn a static layout into an accessible, responsive dashboard with useful interactions.',objective:'Build a responsive dashboard featuring client-side filtering and empty states.',requirements:['Create accessible navigation and data cards','Implement sorting or filtering','Handle loading and empty states','Support mobile and desktop layouts','Add keyboard-visible focus styles'],stretch:'Persist a display preference in local storage.',skills:'HTML, CSS, JavaScript'},
-{id:'infra',title:'Push to production',category:'Cloud',difficulty:'INTERMEDIATE',time:'5–7 hours',description:'Take a small API from your machine to a secure cloud deployment with an automated pipeline.',objective:'Deploy an application through a reproducible CI/CD process.',requirements:['Containerize a sample API','Run tests in CI on every pull request','Deploy via a release workflow','Keep credentials out of the repository','Document a rollback and operational health check'],stretch:'Add basic request metrics and alerts.',skills:'Docker, CI/CD, cloud'},
-{id:'data',title:'Find the story in data',category:'Data',difficulty:'BEGINNER',time:'3–5 hours',description:'Choose a public dataset and answer a meaningful question with evidence rather than a pretty chart.',objective:'Produce a reproducible data analysis with clear assumptions and conclusions.',requirements:['Select a dataset and write a research question','Clean and document missing values','Create at least three meaningful analyses','Explain limitations and possible bias','Publish a notebook and concise findings'],stretch:'Build an interactive chart or dashboard.',skills:'Python, pandas, data storytelling'}
-];
-const $=s=>document.querySelector(s);const safe=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let activeCategory='All';const categories=['All','AI & ML','Software','Hardware','Cloud','Security'];
-function drawPaths(){const term=$('#pathSearch').value.toLowerCase().trim();let results=paths.filter(p=>(activeCategory==='All'||p.category===activeCategory)&&(`${p.title} ${p.description} ${p.category}`).toLowerCase().includes(term));$('#pathCards').innerHTML=results.map(p=>`<article class="path-card"><div class="card-top"><span class="card-icon" style="background:${p.color}">${p.icon}</span><span class="card-meta">${p.category.toUpperCase()} · FREE</span></div><h3>${safe(p.title)}</h3><p>${safe(p.description)}</p><div class="card-bottom"><span>${p.weeks} weeks · ${p.level}</span><button data-path="${p.id}">Explore ↗</button></div></article>`).join('')||'<div class="empty">No paths found. Try a different search.</div>';document.querySelectorAll('[data-path]').forEach(b=>b.onclick=()=>showPath(b.dataset.path))}
-$('#pathFilters').innerHTML=categories.map(x=>`<button class="pill ${x==='All'?'active':''}" data-category="${x}">${x}</button>`).join('');document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{activeCategory=b.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x===b));drawPaths()});$('#pathSearch').addEventListener('input',drawPaths);drawPaths();
-$('#goal').innerHTML=paths.map(p=>`<option value="${p.id}">${p.title}</option>`).join('');
-function showDialog(content){$('#detailContent').innerHTML=content;$('#detail').showModal()}function showPath(id){const p=paths.find(x=>x.id===id);showDialog(`<div class="detail-content"><span class="detail-tag">${p.category} · ${p.weeks} week baseline</span><h2>${safe(p.title)}</h2><p>${safe(p.description)}</p><h4>You'll learn</h4><ol class="detail-list">${p.steps.map(x=>`<li>${safe(x)}</li>`).join('')}</ol><h4>Capstone assignment</h4><p>${safe(p.project)}</p><h4>Free starting resources</h4><ul class="detail-list">${p.resources.map(([n,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${safe(n)} ↗</a></li>`).join('')}</ul><button class="btn primary" id="choosePath">Make this my roadmap ↗</button></div>`);$('#choosePath').onclick=()=>{$('#goal').value=p.id;$('#detail').close();$('#roadmap').scrollIntoView({behavior:'smooth'});$('#plannerCard').classList.add('spotlight');setTimeout(()=>$('#plannerCard').classList.remove('spotlight'),1500)}}
-function drawAssignments(){$('#assignCards').innerHTML=assignments.map((a,i)=>`<article class="assignment"><div class="between"><span class="difficulty">${a.category.toUpperCase()} / ${a.difficulty}</span><span class="card-meta">0${i+1}</span></div><h3>${safe(a.title)}</h3><p>${safe(a.description)}</p><div class="assignment-footer"><small>◷ ${a.time}</small><button data-assignment="${a.id}">See challenge ↗</button></div></article>`).join('');document.querySelectorAll('[data-assignment]').forEach(b=>b.onclick=()=>showAssignment(b.dataset.assignment))}drawAssignments();
-function showAssignment(id){const a=assignments.find(x=>x.id===id);showDialog(`<div class="detail-content"><span class="detail-tag">${a.category} · ${a.difficulty} · ${a.time}</span><h2>${safe(a.title)}</h2><p>${safe(a.objective)}</p><h4>Requirements</h4><ol class="detail-list">${a.requirements.map(r=>`<li>${safe(r)}</li>`).join('')}</ol><h4>Stretch goal</h4><p>${safe(a.stretch)}</p><h4>Skills you'll practice</h4><p>${safe(a.skills)}</p><div class="generated-actions"><button class="btn primary" id="copyChallenge">Copy challenge ↗</button><a class="btn ghost" href="https://github.com/new" target="_blank" rel="noopener">Start on GitHub →</a></div><p class="footnote">This MVP doesn't accept submissions or evaluate repositories yet.</p></div>`);$('#copyChallenge').onclick=()=>copyText(`${a.title}\n\n${a.objective}\n\nRequirements:\n${a.requirements.map((x,i)=>`${i+1}. ${x}`).join('\n')}\n\nStretch: ${a.stretch}`)}
-function getStored(){try{return JSON.parse(localStorage.getItem('skillunbound-plan')||'null')}catch{return null}}function savePlan(o){localStorage.setItem('skillunbound-plan',JSON.stringify(o))}function generate(){const id=$('#goal').value,level=$('#level').value,hours=Number($('#hours').value),project=$('#projectInterest').value.trim();let p=paths.find(x=>x.id===id);let steps=[...p.steps];if(level==='experienced'&&steps.length>3)steps=steps.slice(2);else if(level==='some'&&steps.length>4)steps=steps.slice(1);const durations=steps.map((_,i)=>Math.max(1,Math.ceil((i===steps.length-1?10:7)/hours)));let currentWeek=1;const weeks=steps.map((title,i)=>{const start=currentWeek;currentWeek+=durations[i];return {title,week:`${start}${durations[i]>1?'–'+(currentWeek-1):''}`,done:false}});const plan={id,level,hours,project,weeks,created:new Date().toISOString()};savePlan(plan);renderPlan(plan)}
-function renderPlan(plan){const p=paths.find(x=>x.id===plan.id);if(!p)return;const completed=plan.weeks.filter(w=>w.done).length;const duration=plan.weeks.reduce((n,w)=>Math.max(n,Number(w.week.split('–').pop())),0);$('#generatedPlan').classList.remove('hidden');$('#generatedPlan').innerHTML=`<div class="between"><span class="kicker">YOUR PERSONAL ROADMAP</span><span class="chip">${completed}/${plan.weeks.length} complete</span></div><h3>${safe(p.title)} · ${duration} weeks</h3><p class="muted">${plan.hours} hours/week · ${plan.level==='experienced'?'Experienced':plan.level==='some'?'Some experience':'Starting out'}. This is a rule-based sample schedule, not an AI skill assessment.</p><div class="bar"><div style="width:${Math.round(completed/plan.weeks.length*100)}%"></div></div><div class="week-list">${plan.weeks.map((w,i)=>`<label class="week"><input type="checkbox" data-week="${i}" ${w.done?'checked':''}><span><strong>Week ${safe(w.week)}: ${safe(w.title)}</strong><p>${i===plan.weeks.length-1?'Project checkpoint: '+safe(plan.project||p.project):'Study the topic, take notes, and implement a small working example.'} <a href="${p.resources[i%p.resources.length][1]}" target="_blank" rel="noopener">Study resource ↗</a></p></span></label>`).join('')}</div><div class="generated-actions"><button id="downloadPlan" class="btn primary">Download plan ↧</button><button id="copyPlan" class="btn ghost">Copy plan</button><button id="resetPlan" class="btn ghost">Reset</button></div>`;document.querySelectorAll('[data-week]').forEach(x=>x.onchange=()=>{plan.weeks[Number(x.dataset.week)].done=x.checked;savePlan(plan);renderPlan(plan)});$('#downloadPlan').onclick=()=>{const blob=new Blob([textPlan(plan,p)],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='my-learning-roadmap.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('#copyPlan').onclick=()=>copyText(textPlan(plan,p));$('#resetPlan').onclick=()=>{localStorage.removeItem('skillunbound-plan');$('#generatedPlan').classList.add('hidden')}}
-function textPlan(plan,p){return `OPEN TRAIL LEARNING PLAN\nTrack: ${p.title}\nHours per week: ${plan.hours}\nProject: ${plan.project||p.project}\n\n${plan.weeks.map(w=>`[${w.done?'x':' '}] Week ${w.week}: ${w.title}`).join('\n')}\n\nResources:\n${p.resources.map(([n,u])=>`${n}: ${u}`).join('\n')}`}function copyText(t){navigator.clipboard?.writeText(t).then(()=>alert('Copied to clipboard')).catch(()=>prompt('Copy this text',t))}$('#generate').onclick=generate;const stored=getStored();if(stored&&paths.some(p=>p.id===stored.id)){renderPlan(stored);$('#goal').value=stored.id;$('#level').value=stored.level;$('#hours').value=stored.hours;$('#projectInterest').value=stored.project||''}document.querySelectorAll('[data-open-planner]').forEach(b=>b.onclick=()=>{$('#roadmap').scrollIntoView({behavior:'smooth'})});
-let currentTool='json';const titles={json:'JSON Formatter',base64:'Base64 Lab',words:'Word Counter'};document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{currentTool=b.dataset.tool;$('#toolTitle').textContent=titles[currentTool];$('#toolInput').value='';$('#toolOutput').textContent='Your result will appear here.';$('#toolPanel').classList.remove('hidden');$('#toolPanel').scrollIntoView({behavior:'smooth',block:'center'})});$('#closeTool').onclick=()=>$('#toolPanel').classList.add('hidden');$('#toolRun').onclick=()=>{const input=$('#toolInput').value;try{if(currentTool==='json')$('#toolOutput').textContent=JSON.stringify(JSON.parse(input),null,2);else if(currentTool==='base64'){$('#toolOutput').textContent=`Encoded: ${btoa(unescape(encodeURIComponent(input)))}\nDecoded (if input is Base64): ${(()=>{try{return decodeURIComponent(escape(atob(input.trim())))}catch{return 'Not valid Base64'}})()}`;}else{$('#toolOutput').textContent=`Words: ${(input.trim().match(/\S+/g)||[]).length}\nCharacters: ${input.length}\nCharacters without spaces: ${input.replace(/\s/g,'').length}\nLines: ${input?input.split(/\n/).length:0}`}}catch(e){$('#toolOutput').textContent='Invalid input: '+e.message}};$('#toolCopy').onclick=()=>copyText($('#toolOutput').textContent);document.querySelectorAll('.close-dialog').forEach(x=>x.onclick=()=>$('#detail').close());$('#detail').addEventListener('click',e=>{if(e.target===$('#detail'))$('#detail').close()});$('#menu').onclick=()=>$('#nav').classList.toggle('open');document.querySelectorAll('#nav a').forEach(x=>x.onclick=()=>$('#nav').classList.remove('open'));$('#year').textContent=new Date().getFullYear();
+(function () {
+  'use strict';
+
+  const data = window.SkillUnboundData;
+  const main = document.querySelector('#main');
+  const toast = document.querySelector('#toast');
+  const storage = {
+    get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
+    set(key, value) { localStorage.setItem(key, JSON.stringify(value)); },
+  };
+  const safe = (value) => String(value ?? '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+  const slugText = (value) => safe(value).replace(/\n/g, '<br>');
+  let toastTimer;
+  let activeAudio;
+
+  function notify(message) {
+    clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.hidden = false;
+    toastTimer = setTimeout(() => { toast.hidden = true; }, 3000);
+  }
+
+  function routeParts() {
+    const hashRoute = location.hash.replace(/^#\/?/, '');
+    const pathRoute = location.pathname.replace(/^\/+|\/+$/g, '');
+    return (hashRoute || pathRoute || '').split('/').filter(Boolean).map(decodeURIComponent);
+  }
+
+  function setMeta(title, description, canonicalPath = '/', schema = null) {
+    document.title = `${title} — Skill Unbound`;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.content = description;
+    const canonicalUrl = new URL(canonicalPath, 'https://skillunbound.dev').href;
+    document.querySelector('link[rel="canonical"]').href = canonicalUrl;
+    document.querySelector('meta[property="og:title"]').content = `${title} — Skill Unbound`;
+    document.querySelector('meta[property="og:description"]').content = description;
+    document.querySelector('meta[property="og:url"]').content = canonicalUrl;
+    document.querySelector('#routeSchema')?.remove();
+    if (schema) {
+      const script = document.createElement('script');
+      script.id = 'routeSchema';
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(schema);
+      document.head.append(script);
+    }
+  }
+
+  function progressFor(pathId) {
+    const all = storage.get('skillunbound.progress.v2', {});
+    return all[pathId] || { enrolledAt: null, milestones: {} };
+  }
+
+  function saveProgress(pathId, progress) {
+    const all = storage.get('skillunbound.progress.v2', {});
+    all[pathId] = progress;
+    storage.set('skillunbound.progress.v2', all);
+  }
+
+  function completion(path, progress) {
+    const done = path.milestones.filter((item) => progress.milestones[item.id]?.completed).length;
+    return { done, total: path.milestones.length, percent: Math.round((done / path.milestones.length) * 100) };
+  }
+
+  function card(path) {
+    const progress = progressFor(path.id);
+    const stats = completion(path, progress);
+    return `<article class="card">
+      <div class="card-meta"><span class="tag ${path.contentType === 'Original course' ? 'tag-accent' : ''}">${safe(path.contentType)}</span><span class="tag">${safe(path.category)}</span></div>
+      <h3><a href="#/path/${encodeURIComponent(path.id)}">${safe(path.title)}</a></h3>
+      <p>${safe(path.summary)}</p>
+      <div class="card-foot"><span>${path.weeks} weeks · ${safe(path.difficulty)}</span>${progress.enrolledAt ? `<span>${stats.percent}% complete</span>` : '<span>Free</span>'}</div>
+    </article>`;
+  }
+
+  function renderHome() {
+    setMeta('Learn by building', 'Free project-based technology paths with public resources and evidence-based progress.');
+    const featured = ['ai-agents-engineering', 'nodejs', 'web-accessibility'].map((id) => data.paths.find((path) => path.id === id));
+    main.innerHTML = `<section class="hero"><div class="shell">
+      <span class="eyebrow">Open learning, useful proof</span>
+      <h1>Learn the skill.<br><span class="accent">Build the evidence.</span></h1>
+      <p class="lede">Fifty original, project-led curricula with ${data.youtubeVideoCount} existing Dropout Developer YouTube lessons. Progress is earned with working deliverables—not by opening a video.</p>
+      <div class="hero-actions"><a class="button button-primary" href="#/paths">Explore all paths ↗</a><a class="button" href="#/roadmap">Build a personal roadmap</a></div>
+      <div class="hero-proof" aria-label="Catalog facts">
+        <article><strong>${data.paths.length}</strong><span>launch paths and courses</span></article>
+        <article><strong>${data.tools.length}</strong><span>privacy-labeled browser tools</span></article>
+        <article><strong>0</strong><span>paywalls required by Skill Unbound</span></article>
+      </div>
+    </div></section>
+    <section class="section"><div class="shell"><div class="section-head"><div><span class="eyebrow">Start with a direction</span><h2>Three ways in.</h2><p>Pick a focused path, make visible progress, and leave with something another person can inspect.</p></div><a class="button" href="#/paths">Browse catalog</a></div><div class="card-grid">${featured.map(card).join('')}</div></div></section>
+    <section class="section" style="background:#17211b;color:white"><div class="shell"><div class="section-head"><div><span class="eyebrow" style="color:#d8f56a">Local-first tools</span><h2>Useful before sign-up exists.</h2><p style="color:#bdc9c0">Plan a roadmap, track practice, inspect a public GitHub profile, or rehearse narration. Each tool says where data goes.</p></div><a class="button" href="#/tools">Open tools</a></div></div></section>`;
+  }
+
+  function renderCatalog() {
+    setMeta('Learning paths', 'Search and filter 50 project-based learning paths and original courses.', '/paths');
+    const categories = [...new Set(data.paths.map((path) => path.category))].sort();
+    main.innerHTML = `<section class="section"><div class="shell">
+      <div class="section-head"><div><span class="eyebrow">${data.youtubeVideoCount} Dropout videos · verified public sources</span><h1 style="font-size:clamp(3rem,7vw,5.6rem)">Choose what to build next.</h1><p>Every item has outcomes, prerequisites, milestones, a capstone, attribution, and an evidence-based completion rule.</p></div></div>
+      <div class="catalog-tools" role="search">
+        <div class="field"><label for="catalogSearch">Search</label><input id="catalogSearch" type="search" placeholder="Try Python, data, mobile…"></div>
+        <div class="field"><label for="catalogCategory">Category</label><select id="catalogCategory"><option value="">All categories</option>${categories.map((category) => `<option>${safe(category)}</option>`).join('')}</select></div>
+        <div class="field"><label for="catalogType">Type</label><select id="catalogType"><option value="">All types</option><option>Curated path</option><option>Original course</option></select></div>
+      </div>
+      <p class="result-count" id="resultCount" aria-live="polite"></p><div class="card-grid" id="catalogGrid"></div>
+    </div></section>`;
+    const search = document.querySelector('#catalogSearch');
+    const category = document.querySelector('#catalogCategory');
+    const type = document.querySelector('#catalogType');
+    const grid = document.querySelector('#catalogGrid');
+    const resultCount = document.querySelector('#resultCount');
+    function draw() {
+      const term = search.value.trim().toLowerCase();
+      const filtered = data.paths.filter((path) => {
+        const haystack = [path.title, path.category, path.difficulty, path.summary, ...path.skills, ...path.tags].join(' ').toLowerCase();
+        return (!term || haystack.includes(term)) && (!category.value || path.category === category.value) && (!type.value || path.contentType === type.value);
+      });
+      resultCount.textContent = `${filtered.length} of ${data.paths.length} results`;
+      grid.innerHTML = filtered.length ? filtered.map(card).join('') : '<div class="empty-state"><h3>No matching paths</h3><p>Try a broader keyword or clear a filter.</p></div>';
+    }
+    [search, category, type].forEach((element) => element.addEventListener('input', draw));
+    draw();
+  }
+
+  function resourceMarkup(resource) {
+    if (resource.kind === 'YouTube video') {
+      return `<li class="resource video-resource"><details class="video-disclosure" data-video>
+        <summary><span class="video-thumb"><img src="${safe(resource.thumbnail)}" alt="" loading="lazy"><span class="play-badge" aria-hidden="true">▶</span></span><span><strong>${safe(resource.title)}</strong><small>${safe(resource.creator)} · existing Dropout Developer lesson</small></span></summary>
+        <div class="video-frame"><iframe data-src="${safe(resource.embedUrl)}" title="${safe(resource.title)} by ${safe(resource.creator)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+        <p class="video-links"><a href="${safe(resource.url)}" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a><span aria-hidden="true"> · </span><a href="${safe(resource.sourcePath)}" target="_blank" rel="noopener noreferrer">View original Dropout path ↗</a></p>
+      </details></li>`;
+    }
+    return `<li class="resource"><a href="${safe(resource.url)}" target="_blank" rel="noopener noreferrer">${safe(resource.title)} ↗</a><small>${safe(resource.creator)} · ${safe(resource.kind)} · ${safe(resource.duration)} · ${safe(resource.access)}</small><small>Checked ${safe(resource.verifiedAt)}. ${safe(resource.attribution)}</small></li>`;
+  }
+
+  function renderPath(id) {
+    const path = data.paths.find((item) => item.id === id);
+    if (!path) return renderNotFound();
+    setMeta(path.title, path.summary, `/path/${path.id}`, {
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      name: path.title,
+      description: path.summary,
+      provider: { '@type': 'Organization', name: 'Skill Unbound', url: 'https://skillunbound.dev/' },
+      educationalLevel: path.difficulty,
+      timeRequired: `P${path.weeks}W`,
+      isAccessibleForFree: true,
+      url: `https://skillunbound.dev/path/${path.id}`,
+      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: `${path.hoursPerWeek} hours per week` },
+    });
+    const progress = progressFor(id);
+    const stats = completion(path, progress);
+    const milestoneMarkup = path.milestones.map((milestone, index) => {
+      const saved = progress.milestones[milestone.id] || {};
+      const resources = milestone.resourceIndexes.map((resourceIndex) => path.resources[resourceIndex]).filter(Boolean);
+      return `<details class="milestone ${saved.completed ? 'completed' : ''}" ${index === stats.done ? 'open' : ''}>
+        <summary><span class="milestone-index">${saved.completed ? '✓' : index + 1}</span><span><small>WEEK ${milestone.week}</small><h3>${safe(milestone.title)}</h3></span><span class="tag ${saved.completed ? 'tag-success' : ''}">${saved.completed ? 'Evidence saved' : 'Build checkpoint'}</span></summary>
+        <div class="milestone-body"><p><strong>Outcome:</strong> ${safe(milestone.outcome)}</p><p><strong>Deliverable:</strong> ${safe(milestone.deliverable)}</p><p><strong>Checkpoint:</strong> ${safe(milestone.checkpoint)}</p>
+          <div class="assessment-box"><p><strong>Hint:</strong> ${safe(milestone.hint)}</p><p><strong>Rubric:</strong> ${safe(milestone.rubric)}</p><strong>Verification tests</strong><ul>${milestone.tests.map((test) => `<li>${safe(test)}</li>`).join('')}</ul></div>
+          <ul class="resource-list">${resources.map(resourceMarkup).join('')}</ul>
+          <form class="evidence-form" data-evidence-form="${safe(milestone.id)}">
+            <label class="check-row"><input type="checkbox" name="resourceChecked" ${saved.resourceChecked ? 'checked' : ''}> <span>I reviewed the linked source and used it in the work. Opening a link alone does not complete this milestone.</span></label>
+            <div class="field"><label for="evidence-${safe(milestone.id)}">Portfolio evidence <span class="muted">(repository, artifact URL, test output, or a useful note)</span></label><textarea id="evidence-${safe(milestone.id)}" name="evidence" minlength="20" required>${safe(saved.evidence || '')}</textarea></div>
+            ${index === path.milestones.length - 1 ? `<div class="field"><label for="assessment-${safe(milestone.id)}">Capstone self-assessment</label><textarea id="assessment-${safe(milestone.id)}" name="selfAssessment" minlength="40" required placeholder="Assess the work against correctness, evidence, usability, and explanation.">${safe(saved.selfAssessment || '')}</textarea></div>` : ''}
+            <div class="inline-actions"><button class="button button-primary" type="submit">${saved.completed ? 'Update evidence' : 'Complete with evidence'}</button>${saved.completed ? '<button class="button button-quiet button-danger" type="button" data-reopen>Reopen milestone</button>' : ''}</div>
+          </form>
+        </div>
+      </details>`;
+    }).join('');
+    main.innerHTML = `<div class="shell"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><a href="#/paths">Paths</a><span>/</span><span>${safe(path.title)}</span></nav>
+      <section class="detail-hero"><div class="meta-row"><span class="tag ${path.contentType === 'Original course' ? 'tag-accent' : ''}">${safe(path.contentType)}</span><span class="tag">${safe(path.category)}</span><span class="tag">${safe(path.difficulty)}</span></div><h1>${safe(path.title)}</h1><p class="lede">${safe(path.summary)}</p></section>
+      <div class="detail-layout"><section><h2>Milestones and evidence</h2><p>${safe(path.completionRule)}</p><div class="milestone-list">${milestoneMarkup}</div></section>
+      <aside class="detail-aside" aria-label="Path summary"><h2 style="font-size:1.45rem">Your progress</h2><div class="progress-meter" aria-label="${stats.percent}% complete"><span style="width:${stats.percent}%"></span></div><p><strong>${stats.done}/${stats.total}</strong> milestones complete</p><button class="button button-primary" id="enrollButton" type="button">${progress.enrolledAt ? 'Continue learning' : 'Enroll locally'}</button>
+        <dl><dt>Duration</dt><dd>${path.weeks} weeks</dd><dt>Weekly time</dt><dd>${safe(path.hoursPerWeek)} hours</dd>${path.youtubeCount ? `<dt>Dropout videos</dt><dd>${path.youtubeCount}</dd>` : ''}<dt>Resources checked</dt><dd>${safe(path.verifiedAt)}</dd></dl>
+        <h3>Prerequisites</h3><ul>${path.prerequisites.map((item) => `<li>${safe(item)}</li>`).join('')}</ul>
+        ${path.prerequisitePathIds.length ? `<h3>Recommended first</h3><ul>${path.prerequisitePathIds.map((pathId) => { const prerequisite = data.paths.find((item) => item.id === pathId); return prerequisite ? `<li><a href="#/path/${safe(prerequisite.id)}">${safe(prerequisite.title)}</a></li>` : ''; }).join('')}</ul>` : ''}
+        <h3>Assessment</h3><p>${safe(path.assessment)}</p>
+        <h3>Skills</h3><div class="meta-row">${path.skills.map((item) => `<span class="tag">${safe(item)}</span>`).join('')}</div>
+        ${path.referenceUrl ? `<p class="notice" style="margin-top:20px"><strong>Provenance:</strong> <a href="${safe(path.referenceUrl)}" target="_blank" rel="noopener noreferrer">reference inventory ↗</a><br><small>${safe(path.referencePurpose)}</small></p>` : `<p class="notice" style="margin-top:20px">${safe(path.referencePurpose)}</p>`}
+      </aside></div></div>`;
+
+    document.querySelectorAll('[data-video]').forEach((details) => {
+      details.addEventListener('toggle', () => {
+        const iframe = details.querySelector('iframe[data-src]');
+        if (details.open && iframe && !iframe.hasAttribute('src')) iframe.src = iframe.dataset.src;
+      });
+    });
+
+    document.querySelector('#enrollButton').addEventListener('click', () => {
+      if (!progress.enrolledAt) {
+        progress.enrolledAt = new Date().toISOString();
+        saveProgress(path.id, progress);
+        notify('Enrolled locally. Your progress stays in this browser.');
+        renderPath(id);
+      } else {
+        document.querySelector('.milestone:not(.completed)')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+    document.querySelectorAll('[data-evidence-form]').forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const milestoneId = form.dataset.evidenceForm;
+        const evidence = String(formData.get('evidence') || '').trim();
+        const selfAssessment = String(formData.get('selfAssessment') || '').trim();
+        const isCapstone = milestoneId.endsWith('-capstone');
+        if (!formData.get('resourceChecked') || evidence.length < 20 || (isCapstone && selfAssessment.length < 40)) {
+          notify('Add the required review confirmation and meaningful evidence first.');
+          return;
+        }
+        progress.enrolledAt ||= new Date().toISOString();
+        progress.milestones[milestoneId] = { resourceChecked: true, evidence, selfAssessment, completed: true, completedAt: new Date().toISOString() };
+        saveProgress(path.id, progress);
+        notify('Milestone completed with evidence.');
+        renderPath(id);
+      });
+      form.querySelector('[data-reopen]')?.addEventListener('click', () => {
+        const item = progress.milestones[form.dataset.evidenceForm];
+        if (item) item.completed = false;
+        saveProgress(path.id, progress);
+        renderPath(id);
+      });
+    });
+  }
+
+  function renderRoadmap() {
+    setMeta('Roadmap builder', 'Build and save a personalized project-based learning roadmap in your browser.', '/roadmap');
+    const saved = storage.get('skillunbound.roadmap.v2', null);
+    main.innerHTML = `<section class="section"><div class="shell"><div class="section-head"><div><span class="eyebrow">Plan around reality</span><h1 style="font-size:clamp(3rem,7vw,5.6rem)">A roadmap with a finish line.</h1><p>Choose a destination, tell us where you are, and get a schedule made from the path’s real milestones.</p></div></div>
+      <div class="roadmap-layout"><form class="form-card form-grid" id="roadmapForm">
+        <div class="field full"><label for="roadmapPath">Learning path</label><select id="roadmapPath" name="path">${data.paths.map((path) => `<option value="${safe(path.id)}">${safe(path.title)}</option>`).join('')}</select></div>
+        <div class="field"><label for="roadmapLevel">Current level</label><select id="roadmapLevel" name="level"><option value="new">New to the topic</option><option value="some">Know the basics</option><option value="experienced">Related experience</option></select></div>
+        <div class="field"><label for="roadmapHours">Hours per week</label><input id="roadmapHours" name="hours" type="number" min="2" max="40" value="6" required></div>
+        <div class="field"><label for="roadmapWeeks">Target timeline</label><input id="roadmapWeeks" name="weeks" type="number" min="3" max="52" value="8" required></div>
+        <div class="field"><label for="roadmapGoal">Goal</label><input id="roadmapGoal" name="goal" placeholder="e.g. qualify for backend internships" required></div>
+        <div class="field full"><label for="roadmapProject">Project interest</label><input id="roadmapProject" name="project" placeholder="e.g. a community event API"></div>
+        <div class="privacy full">Plan data and progress are stored only in this browser. No account or tracking request is made.</div>
+        <button class="button button-primary full" type="submit">Generate roadmap ↗</button>
+      </form><section class="output-card roadmap-output" id="roadmapOutput" aria-live="polite"></section></div>
+    </div></section>`;
+    const form = document.querySelector('#roadmapForm');
+    const output = document.querySelector('#roadmapOutput');
+    function drawPlan(plan) {
+      if (!plan) {
+        output.innerHTML = '<h2>Your plan will appear here.</h2><p>It will use the chosen path’s milestones—not generic generated filler.</p>';
+        return;
+      }
+      const path = data.paths.find((item) => item.id === plan.pathId);
+      if (!path) return;
+      output.innerHTML = `<div class="meta-row"><span class="tag tag-success">Saved locally</span><span class="tag">${safe(plan.hours)} hours/week</span></div><h2>${safe(path.title)}</h2><p><strong>Goal:</strong> ${safe(plan.goal)}</p>${plan.weeks.map((week) => `<article class="plan-week"><strong>Week ${week.from}${week.to > week.from ? `–${week.to}` : ''}: ${safe(week.title)}</strong><p>${safe(week.deliverable)}</p></article>`).join('')}<div class="inline-actions"><button class="button button-primary" id="downloadRoadmap">Download plan</button><button class="button" id="copyRoadmap">Copy</button><button class="button button-danger" id="resetRoadmap">Reset</button></div>`;
+      const text = `${path.title}\nGoal: ${plan.goal}\nTime: ${plan.hours} hours/week\n\n${plan.weeks.map((week) => `Week ${week.from}${week.to > week.from ? `-${week.to}` : ''}: ${week.title}\n${week.deliverable}`).join('\n\n')}`;
+      document.querySelector('#downloadRoadmap').onclick = () => downloadFile('skillunbound-roadmap.txt', text, 'text/plain');
+      document.querySelector('#copyRoadmap').onclick = () => copyText(text);
+      document.querySelector('#resetRoadmap').onclick = () => { localStorage.removeItem('skillunbound.roadmap.v2'); form.reset(); drawPlan(null); };
+    }
+    if (saved) {
+      form.elements.path.value = saved.pathId;
+      form.elements.level.value = saved.level;
+      form.elements.hours.value = saved.hours;
+      form.elements.weeks.value = saved.targetWeeks;
+      form.elements.goal.value = saved.goal;
+      form.elements.project.value = saved.project || '';
+    }
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const values = new FormData(form);
+      const path = data.paths.find((item) => item.id === values.get('path'));
+      const level = values.get('level');
+      const hours = Number(values.get('hours'));
+      const targetWeeks = Number(values.get('weeks'));
+      const sourceMilestones = level === 'experienced' ? path.milestones.slice(2) : level === 'some' ? path.milestones.slice(1) : path.milestones;
+      const weight = sourceMilestones.map((_, index) => index === sourceMilestones.length - 1 ? 2 : 1);
+      const totalWeight = weight.reduce((sum, value) => sum + value, 0);
+      let cursor = 1;
+      const weeks = sourceMilestones.map((milestone, index) => {
+        const span = Math.max(1, Math.round((targetWeeks * weight[index]) / totalWeight));
+        const result = { title: milestone.title, deliverable: index === sourceMilestones.length - 1 && values.get('project') ? `Adapt the capstone into: ${values.get('project')}. ${milestone.deliverable}` : milestone.deliverable, from: cursor, to: Math.min(targetWeeks, cursor + span - 1) };
+        cursor = result.to + 1;
+        return result;
+      }).filter((item) => item.from <= targetWeeks);
+      if (weeks.length) weeks[weeks.length - 1].to = targetWeeks;
+      const plan = { pathId: path.id, level, hours, targetWeeks, goal: String(values.get('goal')), project: String(values.get('project') || ''), weeks, createdAt: new Date().toISOString() };
+      storage.set('skillunbound.roadmap.v2', plan);
+      drawPlan(plan);
+      notify('Roadmap saved locally.');
+    });
+    drawPlan(saved);
+  }
+
+  function toolCard(tool) {
+    return `<article class="card"><div class="card-meta"><span class="tag">${safe(tool.category)}</span><span class="tag tag-success">Privacy labeled</span></div><h3><a href="#/tool/${safe(tool.id)}">${safe(tool.title)}</a></h3><p>${safe(tool.description)}</p><p class="privacy">${safe(tool.privacy)}</p></article>`;
+  }
+
+  function renderTools() {
+    setMeta('Browser tools', 'Five useful, privacy-labeled learning tools that run in the browser.', '/tools');
+    main.innerHTML = `<section class="section"><div class="shell"><div class="section-head"><div><span class="eyebrow">Your local toolbox</span><h1 style="font-size:clamp(3rem,7vw,5.6rem)">Small tools. Clear boundaries.</h1><p>Every tool explains what stays local, what calls a public API, and what needs an optional self-hosted service.</p></div></div><div class="card-grid">${data.tools.map(toolCard).join('')}</div></div></section>`;
+  }
+
+  function toolShell(tool, body, output = '') {
+    setMeta(tool.title, tool.description, `/tools/${tool.id}`, { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: tool.title, description: tool.description, applicationCategory: tool.category, operatingSystem: 'Any modern browser', offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD' } });
+    main.innerHTML = `<div class="shell"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><a href="#/tools">Tools</a><span>/</span><span>${safe(tool.title)}</span></nav><section class="detail-hero"><span class="eyebrow">${safe(tool.category)} tool</span><h1>${safe(tool.title)}</h1><p class="lede">${safe(tool.description)}</p><div class="privacy">${safe(tool.privacy)}</div></section><section class="section-tight"><div class="tool-layout">${body}<section class="output-card tool-output" id="toolOutput" aria-live="polite">${output}</section></div></section></div>`;
+  }
+
+  function renderTool(id) {
+    const tool = data.tools.find((item) => item.id === id);
+    if (!tool) return renderNotFound();
+    if (id === 'roadmap-generator') return renderRoadmap();
+    if (id === 'dsa-tracker') return renderDsa(tool);
+    if (id === 'github-scorer') return renderGithubScorer(tool);
+    if (id === 'local-tts') return renderTts(tool);
+    if (id === 'voiceover-builder') return renderVoiceover(tool);
+  }
+
+  function renderDsa(tool) {
+    toolShell(tool, `<form class="form-card" id="dsaControls"><div class="field"><label for="dsaSet">Practice set</label><select id="dsaSet"><option value="blind75">Blind 75</option><option value="neetcode150">NeetCode 150</option></select></div><div class="field" style="margin-top:14px"><label for="problemSearch">Filter problems</label><input id="problemSearch" type="search" placeholder="Search title or topic"></div><div class="privacy">Set names and links identify the public study lists. Notes and completion state stay in local storage.</div><div class="inline-actions"><button class="button" type="button" id="exportDsa">Export progress</button><button class="button button-danger" type="button" id="resetDsa">Reset selected set</button></div></form>`, '<h2>Practice progress</h2><div id="dsaResults"></div>');
+    const setSelect = document.querySelector('#dsaSet');
+    const search = document.querySelector('#problemSearch');
+    const results = document.querySelector('#dsaResults');
+    function stateKey() { return `skillunbound.dsa.${setSelect.value}`; }
+    function draw() {
+      const set = data.dsaSets[setSelect.value];
+      const state = storage.get(stateKey(), {});
+      const term = search.value.trim().toLowerCase();
+      const matches = set.problems.filter((problem) => !term || `${problem.title} ${problem.topic} ${problem.difficulty}`.toLowerCase().includes(term));
+      const completed = set.problems.filter((problem) => state[problem.id]?.done).length;
+      results.innerHTML = `<div class="between"><h2>${safe(set.title)}</h2><p><strong>${completed}/${set.problems.length}</strong> complete</p></div><div class="progress-meter"><span style="width:${Math.round(completed / set.problems.length * 100)}%"></span></div><p><a href="${safe(set.source)}" target="_blank" rel="noopener noreferrer">Source list ↗</a></p><div class="problem-list">${matches.map((problem) => `<label class="problem"><input type="checkbox" data-problem="${safe(problem.id)}" ${state[problem.id]?.done ? 'checked' : ''}><span><strong>${safe(problem.title)}</strong><small>${safe(problem.topic)}</small></span><span class="tag">${safe(problem.difficulty)}</span></label>`).join('')}</div>`;
+      results.querySelectorAll('[data-problem]').forEach((checkbox) => checkbox.addEventListener('change', () => {
+        const next = storage.get(stateKey(), {});
+        next[checkbox.dataset.problem] = { done: checkbox.checked, updatedAt: new Date().toISOString() };
+        storage.set(stateKey(), next);
+        draw();
+      }));
+    }
+    setSelect.addEventListener('change', draw);
+    search.addEventListener('input', draw);
+    document.querySelector('#exportDsa').onclick = () => {
+      const set = data.dsaSets[setSelect.value];
+      const state = storage.get(stateKey(), {});
+      const text = set.problems.map((problem) => `[${state[problem.id]?.done ? 'x' : ' '}] ${problem.title} — ${problem.topic}`).join('\n');
+      downloadFile(`${setSelect.value}-progress.txt`, text, 'text/plain');
+    };
+    document.querySelector('#resetDsa').onclick = () => { localStorage.removeItem(stateKey()); draw(); notify('Selected tracker reset.'); };
+    draw();
+  }
+
+  function renderGithubScorer(tool) {
+    toolShell(tool, `<form class="form-card" id="githubForm"><div class="field"><label for="githubUser">GitHub username</label><input id="githubUser" name="username" autocomplete="off" pattern="[A-Za-z0-9-]{1,39}" required placeholder="octocat"></div><div class="privacy">Submitting calls GitHub’s public API for the profile, recent repositories, and recent public events. Skill Unbound does not proxy, retain, or sell the response.</div><button class="button button-primary" type="submit">Score public profile</button><h3 style="margin-top:26px">Transparent 100-point rubric</h3><ul><li>Profile completeness: 20</li><li>Portfolio breadth: 25</li><li>Repository documentation signals: 20</li><li>Community signals: 15</li><li>Recent public activity: 20</li></ul></form>`, '<h2>Enter a username to begin.</h2><p>No score is produced until GitHub returns public data.</p>');
+    const form = document.querySelector('#githubForm');
+    const output = document.querySelector('#toolOutput');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const username = new FormData(form).get('username').trim();
+      output.innerHTML = '<h2>Reading public GitHub data…</h2>';
+      try {
+        const headers = { Accept: 'application/vnd.github+json' };
+        const [profileResponse, reposResponse, eventsResponse] = await Promise.all([
+          fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, { headers }),
+          fetch(`https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`, { headers }),
+          fetch(`https://api.github.com/users/${encodeURIComponent(username)}/events/public?per_page=100`, { headers }),
+        ]);
+        if (!profileResponse.ok) throw new Error(profileResponse.status === 404 ? 'GitHub user not found.' : `GitHub returned ${profileResponse.status}. Try again after the public rate limit resets.`);
+        const profile = await profileResponse.json();
+        const repos = reposResponse.ok ? await reposResponse.json() : [];
+        const events = eventsResponse.ok ? await eventsResponse.json() : [];
+        const originals = repos.filter((repo) => !repo.fork);
+        const documented = originals.filter((repo) => repo.description && (repo.license || repo.homepage || (repo.topics || []).length));
+        const recentCutoff = Date.now() - (90 * 24 * 60 * 60 * 1000);
+        const recentEvents = events.filter((item) => new Date(item.created_at).getTime() >= recentCutoff);
+        const breakdown = {
+          'Profile completeness': Math.min(20, [profile.bio, profile.blog, profile.location, profile.company, profile.avatar_url].filter(Boolean).length * 3 + (profile.hireable ? 3 : 0) + (profile.twitter_username ? 2 : 0)),
+          'Portfolio breadth': Math.min(25, Math.round(originals.length * 2.5)),
+          'Documentation signals': Math.min(20, documented.length * 4),
+          'Community signals': Math.min(15, Math.round(Math.log2((profile.followers || 0) + 1) * 3 + repos.reduce((sum, repo) => sum + repo.stargazers_count, 0) / 5)),
+          'Recent public activity': Math.min(20, recentEvents.length),
+        };
+        const score = Object.values(breakdown).reduce((sum, value) => sum + value, 0);
+        output.innerHTML = `<div class="score-ring" style="--score:${score}" data-score="${score}" aria-label="Score ${score} out of 100"></div><h2>${safe(profile.login)}’s public profile</h2><div class="metric-grid">${Object.entries(breakdown).map(([name, value]) => `<div class="metric"><strong>${value}</strong><span>${safe(name)}</span></div>`).join('')}</div><p>This is a portfolio-readiness heuristic, not a measure of engineering ability. Private work, caregiving, employment constraints, and access barriers are invisible to it.</p><div class="inline-actions"><a class="button" href="${safe(profile.html_url)}" target="_blank" rel="noopener noreferrer">Open profile ↗</a><button class="button button-primary" id="downloadBadge">Download SVG badge</button></div>`;
+        document.querySelector('#downloadBadge').onclick = () => {
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="120" role="img" aria-label="Skill Unbound profile readiness score ${score} out of 100"><rect width="420" height="120" rx="18" fill="#17211b"/><text x="28" y="48" fill="#d8f56a" font-family="system-ui" font-size="18" font-weight="700">SKILL UNBOUND · PUBLIC PROFILE</text><text x="28" y="88" fill="white" font-family="system-ui" font-size="32" font-weight="800">${safe(profile.login)} · ${score}/100</text></svg>`;
+          downloadFile(`${profile.login}-skillunbound-score.svg`, svg, 'image/svg+xml');
+        };
+      } catch (error) {
+        output.innerHTML = `<h2>Couldn’t score this profile</h2><p>${safe(error.message)}</p><p>Check the username or try later if GitHub’s unauthenticated rate limit has been reached.</p>`;
+      }
+    });
+  }
+
+  function voiceOptions() {
+    if (!window.speechSynthesis) return '<option value="">Speech synthesis is unavailable in this browser</option>';
+    return window.speechSynthesis.getVoices().map((voice, index) => `<option value="${index}">${safe(voice.name)} — ${safe(voice.lang)}${voice.localService ? ' (local)' : ''}</option>`).join('');
+  }
+
+  function renderTts(tool) {
+    toolShell(tool, `<form class="form-card" id="ttsForm"><div class="field"><label for="ttsEngine">Engine</label><select id="ttsEngine" name="engine"><option value="browser">Installed browser / OS voice</option><option value="piper">Self-hosted Piper-compatible HTTP endpoint</option></select></div><div class="field" id="piperFields" hidden><label for="piperEndpoint">Local endpoint</label><input id="piperEndpoint" name="endpoint" type="url" placeholder="http://127.0.0.1:5000/synthesize"><small>Expected response: an audio file for JSON input { text, voice }.</small></div><div class="field"><label for="ttsVoice">Voice</label><select id="ttsVoice" name="voice"></select></div><div class="field"><label for="ttsText">Text</label><textarea id="ttsText" name="text" maxlength="5000" required placeholder="Paste text to speak…"></textarea></div><div class="form-grid"><div class="field"><label for="ttsRate">Rate</label><input id="ttsRate" name="rate" type="range" min="0.5" max="2" step="0.1" value="1"></div><div class="field"><label for="ttsPitch">Pitch</label><input id="ttsPitch" name="pitch" type="range" min="0.5" max="2" step="0.1" value="1"></div></div><div class="privacy">Browser voices use the browser’s speech service and may be local or vendor-provided; inspect the “local” label. Piper mode sends the text only to the endpoint you enter.</div><div class="inline-actions"><button class="button button-primary" type="submit">Speak</button><button class="button" id="pauseSpeech" type="button">Pause / resume</button><button class="button button-danger" id="stopSpeech" type="button">Stop</button></div></form>`, '<h2>Engine status</h2><p id="ttsStatus">Choose a voice and enter text. Audio export depends on the configured Piper endpoint; the Web Speech API does not expose raw audio.</p>');
+    const form = document.querySelector('#ttsForm');
+    const voiceSelect = document.querySelector('#ttsVoice');
+    const engine = document.querySelector('#ttsEngine');
+    const piperFields = document.querySelector('#piperFields');
+    const status = document.querySelector('#ttsStatus');
+    function loadVoices() {
+      const options = voiceOptions();
+      voiceSelect.innerHTML = options || '<option value="">No installed voices reported yet</option>';
+    }
+    loadVoices();
+    window.speechSynthesis?.addEventListener?.('voiceschanged', loadVoices, { once: true });
+    engine.addEventListener('change', () => { piperFields.hidden = engine.value !== 'piper'; });
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const values = new FormData(form);
+      const text = String(values.get('text')).trim();
+      if (engine.value === 'piper') {
+        const endpoint = String(values.get('endpoint') || '').trim();
+        if (!endpoint) return notify('Enter your local Piper-compatible endpoint.');
+        status.textContent = 'Requesting audio from your configured endpoint…';
+        try {
+          const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text, voice: voiceSelect.options[voiceSelect.selectedIndex]?.text || 'default' }) });
+          if (!response.ok) throw new Error(`Endpoint returned ${response.status}.`);
+          const blob = await response.blob();
+          if (activeAudio) activeAudio.pause();
+          activeAudio = new Audio(URL.createObjectURL(blob));
+          await activeAudio.play();
+          status.innerHTML = `Playing audio returned by your endpoint. <button class="button" id="savePiper" type="button">Save audio</button>`;
+          document.querySelector('#savePiper').onclick = () => downloadBlob('skillunbound-speech.wav', blob);
+        } catch (error) { status.textContent = `Piper request failed: ${error.message}`; }
+        return;
+      }
+      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return notify('Speech synthesis is unavailable in this browser.');
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      utterance.voice = voices[Number(values.get('voice'))] || null;
+      utterance.rate = Number(values.get('rate'));
+      utterance.pitch = Number(values.get('pitch'));
+      utterance.onstart = () => { status.textContent = 'Speaking with the selected browser voice.'; };
+      utterance.onend = () => { status.textContent = 'Finished.'; };
+      utterance.onerror = (speechEvent) => { status.textContent = `Speech failed: ${speechEvent.error}.`; };
+      window.speechSynthesis.speak(utterance);
+    });
+    document.querySelector('#pauseSpeech').onclick = () => { if (window.speechSynthesis) window.speechSynthesis.paused ? window.speechSynthesis.resume() : window.speechSynthesis.pause(); };
+    document.querySelector('#stopSpeech').onclick = () => { window.speechSynthesis?.cancel(); if (activeAudio) activeAudio.pause(); status.textContent = 'Stopped.'; };
+  }
+
+  function renderVoiceover(tool) {
+    toolShell(tool, `<form class="form-card" id="voiceoverForm"><div class="field"><label for="voiceoverText">Tutorial transcript or narration</label><textarea id="voiceoverText" name="text" minlength="30" maxlength="20000" required placeholder="Paste text you own or are permitted to adapt…"></textarea></div><div class="form-grid"><div class="field"><label for="voiceoverMinutes">Target duration (minutes)</label><input id="voiceoverMinutes" name="minutes" type="number" min="1" max="60" value="5" required></div><div class="field"><label for="voiceoverPace">Words per minute</label><input id="voiceoverPace" name="pace" type="number" min="90" max="220" value="145" required></div></div><div class="privacy">Only pasted text is processed, in this browser. This tool does not fetch, copy, download, or modify YouTube media. Use text you own or have permission to adapt.</div><button class="button button-primary" type="submit">Build timed script</button></form>`, '<h2>Timed segments</h2><p>Segments will appear here with estimated start times and a rehearsal control.</p>');
+    const form = document.querySelector('#voiceoverForm');
+    const output = document.querySelector('#toolOutput');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const values = new FormData(form);
+      const text = String(values.get('text')).trim();
+      const minutes = Number(values.get('minutes'));
+      const pace = Number(values.get('pace'));
+      const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map((part) => part.trim()).filter(Boolean) || [text];
+      const targetWords = Math.max(30, Math.round((minutes * pace) / Math.max(1, Math.ceil(minutes))));
+      const segments = [];
+      let current = [];
+      let words = 0;
+      sentences.forEach((sentence) => {
+        const count = sentence.split(/\s+/).length;
+        if (current.length && words + count > targetWords) { segments.push(current.join(' ')); current = []; words = 0; }
+        current.push(sentence); words += count;
+      });
+      if (current.length) segments.push(current.join(' '));
+      let elapsed = 0;
+      const timed = segments.map((segment, index) => {
+        const duration = Math.max(3, Math.round((segment.split(/\s+/).length / pace) * 60));
+        const item = { index, text: segment, start: elapsed, duration };
+        elapsed += duration;
+        return item;
+      });
+      const formatTime = (seconds) => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+      output.innerHTML = `<div class="meta-row"><span class="tag">${timed.length} segments</span><span class="tag">≈ ${formatTime(elapsed)}</span><span class="tag">${text.split(/\s+/).length} words</span></div><h2>Timed narration</h2><div class="transcript-segments">${timed.map((segment) => `<article class="segment"><time>${formatTime(segment.start)}</time><p>${safe(segment.text)}</p><button class="button" type="button" data-rehearse="${segment.index}">Rehearse segment</button></article>`).join('')}</div><div class="inline-actions"><button class="button button-primary" id="downloadScript">Download timed script</button><button class="button button-danger" id="stopRehearsal">Stop speech</button></div>`;
+      output.querySelectorAll('[data-rehearse]').forEach((button) => button.onclick = () => { if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return notify('Speech synthesis is unavailable in this browser.'); window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance(timed[Number(button.dataset.rehearse)].text)); });
+      document.querySelector('#stopRehearsal').onclick = () => window.speechSynthesis?.cancel();
+      document.querySelector('#downloadScript').onclick = () => downloadFile('timed-voiceover.txt', timed.map((segment) => `[${formatTime(segment.start)}] ${segment.text}`).join('\n\n'), 'text/plain');
+    });
+  }
+
+  function renderStatic(page) {
+    const pages = {
+      about: ['About Skill Unbound', `<p class="lede">Skill Unbound is a free-first, project-based learning catalog. It links to excellent public material, adds original structure and assignments, and asks learners to keep evidence of what they built.</p><h2>What this launch is</h2><ul><li>A local-first catalog, roadmap builder, practice tracker, and portfolio evidence system.</li><li>Original Skill Unbound copy and assignments with source attribution.</li><li>An honest public MVP: no fake mentors, testimonials, certificates, or AI claims.</li></ul><h2>What it is not yet</h2><p>Accounts, cross-device sync, managed AI models, automated repository evaluation, and credentials require a backend and operational review. They are intentionally not represented as live.</p>`],
+      privacy: ['Privacy', `<p class="lede">The public MVP is designed to work without an account.</p><h2>Local data</h2><p>Roadmaps, path evidence, enrollment state, and DSA progress are stored in your browser’s local storage. Clear site data to remove them.</p><h2>External requests</h2><p>Opening a learning resource sends a normal browser request to its publisher. The GitHub scorer requests public profile data directly from GitHub only after you submit a username. TTS may use your operating system’s voice service; Piper mode sends text only to the endpoint you enter.</p><h2>No analytics claim</h2><p>This repository contains no analytics or advertising script. Hosting providers may retain operational request logs under their own policies.</p>`],
+      credits: ['Credits and source policy', `<p class="lede">Skill Unbound links out; it does not republish third-party lessons.</p><h2>Attribution</h2><p>Each curated path includes the existing public YouTube lessons listed by Dropout Developer, with the publishing creator shown beside every lesson. Videos use YouTube's privacy-enhanced embed domain, never autoplay, and load only when opened.</p><h2>Curriculum provenance</h2><p>Dropout Developer is the source inventory for these video selections. Skill Unbound adds original interface design, summaries, outcomes, exercises, rubrics, capstones, and evidence gates.</p><h2>Corrections</h2><p>Until a reviewed submission workflow is online, propose source corrections through the repository’s issue template.</p>`],
+    };
+    const selected = pages[page] || pages.about;
+    setMeta(selected[0], `${selected[0]} for Skill Unbound.`, `/${page}`);
+    main.innerHTML = `<section class="section"><div class="shell static-copy"><span class="eyebrow">Skill Unbound</span><h1 style="font-size:clamp(3rem,7vw,5.6rem)">${selected[0]}</h1>${selected[1]}</div></section>`;
+  }
+
+  function renderNotFound() {
+    setMeta('Not found', 'The requested Skill Unbound page was not found.');
+    main.innerHTML = '<section class="section"><div class="shell empty-state"><h1 style="font-size:3rem">That page wandered off.</h1><p>The catalog may have changed, but your local progress has not been deleted.</p><a class="button button-primary" href="#/">Return home</a></div></section>';
+  }
+
+  function downloadBlob(filename, blob) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url; link.download = filename; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  function downloadFile(filename, content, type) { downloadBlob(filename, new Blob([content], { type })); }
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); notify('Copied to clipboard.'); }
+    catch { notify('Clipboard access was unavailable. Use the download instead.'); }
+  }
+
+  function render() {
+    const [route, id] = routeParts();
+    document.querySelector('#primaryNav').classList.remove('open');
+    document.querySelector('#menuButton').setAttribute('aria-expanded', 'false');
+    if (!route) renderHome();
+    else if (route === 'paths') renderCatalog();
+    else if (route === 'path') renderPath(id);
+    else if (route === 'roadmap') renderRoadmap();
+    else if (route === 'tools') renderTools();
+    else if (route === 'tool') renderTool(id);
+    else if (['about', 'privacy', 'credits'].includes(route)) renderStatic(route);
+    else renderNotFound();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    main.focus({ preventScroll: true });
+  }
+
+  document.querySelector('#menuButton').addEventListener('click', (event) => {
+    const nav = document.querySelector('#primaryNav');
+    const open = nav.classList.toggle('open');
+    event.currentTarget.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelector('#year').textContent = new Date().getFullYear();
+  window.addEventListener('hashchange', render);
+  window.addEventListener('beforeunload', () => window.speechSynthesis?.cancel());
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+  render();
+}());

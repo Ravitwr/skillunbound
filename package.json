@@ -1,0 +1,14 @@
+{
+  "name": "skillunbound",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Free-first, project-based technical learning catalog and local browser tools.",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check app.js && node --check youtube-data.js && node --check data.js && node --check scripts/audit-dropout-videos.mjs && node --check scripts/check-links.mjs && node --test",
+    "check:links": "node scripts/check-links.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
