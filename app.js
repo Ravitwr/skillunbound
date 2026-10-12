@@ -12,6 +12,39 @@
   const slugText = (value) => safe(value).replace(/\n/g, '<br>');
   let toastTimer;
   let activeAudio;
+  const themeKey = 'skillunbound.theme';
+
+  function applyTheme(theme, persist = false) {
+    const selected = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = selected;
+    document.documentElement.style.colorScheme = selected;
+    document.querySelector('#themeColor')?.setAttribute('content', selected === 'dark' ? '#151819' : '#f2eee5');
+    const toggle = document.querySelector('#themeToggle');
+    const label = document.querySelector('#themeLabel');
+    if (toggle) {
+      const nextName = selected === 'dark' ? 'Ivory' : 'Charcoal';
+      toggle.setAttribute('aria-label', `Switch to ${nextName} theme`);
+      toggle.setAttribute('aria-pressed', String(selected === 'dark'));
+      toggle.title = `Switch to ${nextName} theme`;
+    }
+    if (label) label.textContent = selected === 'dark' ? 'Charcoal' : 'Ivory';
+    if (persist) {
+      try { localStorage.setItem(themeKey, selected); } catch {}
+    }
+  }
+
+  function setupTheme() {
+    applyTheme(document.documentElement.dataset.theme);
+    document.querySelector('#themeToggle')?.addEventListener('click', () => {
+      applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true);
+    });
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    media.addEventListener?.('change', (event) => {
+      let hasSavedTheme = false;
+      try { hasSavedTheme = Boolean(localStorage.getItem(themeKey)); } catch {}
+      if (!hasSavedTheme) applyTheme(event.matches ? 'dark' : 'light');
+    });
+  }
 
   function notify(message) {
     clearTimeout(toastTimer);
@@ -75,19 +108,26 @@
   function renderHome() {
     setMeta('Learn by building', 'Free project-based technology paths with public resources and evidence-based progress.');
     const featured = ['ai-agents-engineering', 'nodejs', 'web-accessibility'].map((id) => data.paths.find((path) => path.id === id));
-    main.innerHTML = `<section class="hero"><div class="shell">
-      <span class="eyebrow">Open learning, useful proof</span>
-      <h1>Learn the skill.<br><span class="accent">Build the evidence.</span></h1>
-      <p class="lede">Fifty original, project-led curricula with ${data.youtubeVideoCount} existing Dropout Developer YouTube lessons. Progress is earned with working deliverables—not by opening a video.</p>
-      <div class="hero-actions"><a class="button button-primary" href="#/paths">Explore all paths ↗</a><a class="button" href="#/roadmap">Build a personal roadmap</a></div>
-      <div class="hero-proof" aria-label="Catalog facts">
-        <article><strong>${data.paths.length}</strong><span>launch paths and courses</span></article>
-        <article><strong>${data.tools.length}</strong><span>privacy-labeled browser tools</span></article>
-        <article><strong>0</strong><span>paywalls required by Skill Unbound</span></article>
+    const outputs = ['Agent + evaluation suite', 'Tested API + documentation', 'Accessible interface + audit'];
+    main.innerHTML = `<section class="study-hero"><div class="shell">
+      <span class="eyebrow">Open study / real output / no paywall</span>
+      <h1>Learn with intent.<br><em>Build with proof.</em></h1>
+      <div class="study-hero-bottom"><p>Project-led curricula built around public resources and inspectable work. Progress comes from what you make—not from opening another video.</p><div class="hero-actions"><a class="button button-primary" href="#/paths">Explore learning paths ↗</a><a class="button" href="#/roadmap">Build my roadmap</a></div></div>
+      <div class="study-stats" aria-label="Catalog facts">
+        <span><strong>${data.paths.length}</strong> paths and courses</span>
+        <span><strong>${data.youtubeVideoCount}</strong> public lessons</span>
+        <span><strong>${data.tools.length}</strong> local-first tools</span>
+        <span><strong>0</strong> Skill Unbound paywalls</span>
       </div>
     </div></section>
-    <section class="section"><div class="shell"><div class="section-head"><div><span class="eyebrow">Start with a direction</span><h2>Three ways in.</h2><p>Pick a focused path, make visible progress, and leave with something another person can inspect.</p></div><a class="button" href="#/paths">Browse catalog</a></div><div class="card-grid">${featured.map(card).join('')}</div></div></section>
-    <section class="section" style="background:#17211b;color:white"><div class="shell"><div class="section-head"><div><span class="eyebrow" style="color:#d8f56a">Local-first tools</span><h2>Useful before sign-up exists.</h2><p style="color:#bdc9c0">Plan a roadmap, track practice, inspect a public GitHub profile, or rehearse narration. Each tool says where data goes.</p></div><a class="button" href="#/tools">Open tools</a></div></div></section>`;
+    <section class="study-method"><div class="shell study-method-grid"><div><span class="eyebrow">How progress works</span><h2>A visible trail from curiosity to capability.</h2></div><div class="method-list">
+      <article><span>01</span><div><h3>Choose a finish line</h3><p>See the artifact and completion rule before you commit.</p></div></article>
+      <article><span>02</span><div><h3>Learn what the work needs</h3><p>Use a focused set of attributed public lessons.</p></div></article>
+      <article><span>03</span><div><h3>Keep the evidence</h3><p>Save a repository, demo, test result, or useful explanation.</p></div></article>
+    </div></div></section>
+    <section class="section section-panel"><div class="shell"><div class="section-head"><div><span class="eyebrow">Selected routes</span><h2>Start with something you want to make.</h2></div><a class="text-link" href="#/paths">Browse all ${data.paths.length} ↗</a></div><div class="featured-list">${featured.map((path, index) => `<article><span class="featured-number">0${index + 1}</span><div><small>${safe(path.category)} / ${safe(path.difficulty)}</small><h3><a href="#/path/${encodeURIComponent(path.id)}">${safe(path.title)}</a></h3></div><p>${outputs[index]}</p><dl><dt>Length</dt><dd>${path.weeks} weeks</dd><dt>Lessons</dt><dd>${path.youtubeCount || path.resources.length}</dd></dl><a class="featured-arrow" href="#/path/${encodeURIComponent(path.id)}" aria-label="Open ${safe(path.title)}">↗</a></article>`).join('')}</div></div></section>
+    <section class="evidence-section"><div class="shell evidence-grid"><span class="evidence-number">04</span><div><span class="eyebrow">What counts as progress?</span><h2>Something another person can inspect.</h2></div><article class="evidence-receipt"><header><span>Evidence receipt</span><span>Saved locally</span></header><small>Repository</small><strong>github.com/you/useful-project</strong><small>Verification</small><strong>18 tests passing · keyboard audit complete</strong><small>Decision note</small><strong>Scope, trade-offs, and the next improvement</strong><footer><span>Milestone complete</span><b>✓</b></footer></article></div></section>
+    <section class="study-final"><div class="shell"><p>Plan locally. Learn openly. Make the work visible.</p><h2>Your next project<br>starts with a path.</h2><div class="hero-actions"><a class="button button-contrast" href="#/roadmap">Build a personal roadmap ↗</a><a class="button button-on-gold" href="#/tools">Open local tools</a></div></div></section>`;
   }
 
   function renderCatalog() {
@@ -376,7 +416,7 @@
         const score = Object.values(breakdown).reduce((sum, value) => sum + value, 0);
         output.innerHTML = `<div class="score-ring" style="--score:${score}" data-score="${score}" aria-label="Score ${score} out of 100"></div><h2>${safe(profile.login)}’s public profile</h2><div class="metric-grid">${Object.entries(breakdown).map(([name, value]) => `<div class="metric"><strong>${value}</strong><span>${safe(name)}</span></div>`).join('')}</div><p>This is a portfolio-readiness heuristic, not a measure of engineering ability. Private work, caregiving, employment constraints, and access barriers are invisible to it.</p><div class="inline-actions"><a class="button" href="${safe(profile.html_url)}" target="_blank" rel="noopener noreferrer">Open profile ↗</a><button class="button button-primary" id="downloadBadge">Download SVG badge</button></div>`;
         document.querySelector('#downloadBadge').onclick = () => {
-          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="120" role="img" aria-label="Skill Unbound profile readiness score ${score} out of 100"><rect width="420" height="120" rx="18" fill="#17211b"/><text x="28" y="48" fill="#d8f56a" font-family="system-ui" font-size="18" font-weight="700">SKILL UNBOUND · PUBLIC PROFILE</text><text x="28" y="88" fill="white" font-family="system-ui" font-size="32" font-weight="800">${safe(profile.login)} · ${score}/100</text></svg>`;
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="120" role="img" aria-label="Skill Unbound profile readiness score ${score} out of 100"><rect width="420" height="120" rx="4" fill="#151819"/><text x="28" y="48" fill="#e5b747" font-family="system-ui" font-size="18" font-weight="700">SKILL UNBOUND · PUBLIC PROFILE</text><text x="28" y="88" fill="#f7f7f5" font-family="system-ui" font-size="32" font-weight="800">${safe(profile.login)} · ${score}/100</text></svg>`;
           downloadFile(`${profile.login}-skillunbound-score.svg`, svg, 'image/svg+xml');
         };
       } catch (error) {
@@ -525,6 +565,7 @@
     const open = nav.classList.toggle('open');
     event.currentTarget.setAttribute('aria-expanded', String(open));
   });
+  setupTheme();
   document.querySelector('#year').textContent = new Date().getFullYear();
   window.addEventListener('hashchange', render);
   window.addEventListener('beforeunload', () => window.speechSynthesis?.cancel());

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f1e8">
+  <meta id="themeColor" name="theme-color" content="#f2eee5">
   <meta name="description" content="Free, project-based technology learning paths with verified public resources and evidence-based progress.">
   <meta property="og:title" content="Skill Unbound — Learn by building">
   <meta property="og:description" content="Choose a path, build real work, and keep the evidence.">
@@ -14,6 +14,17 @@
   <meta name="twitter:image" content="https://skillunbound.dev/og-card.png">
   <link rel="canonical" href="https://skillunbound.dev/">
   <link rel="manifest" href="manifest.webmanifest">
+  <script>
+    (() => {
+      let savedTheme;
+      try { savedTheme = localStorage.getItem('skillunbound.theme'); } catch {}
+      const theme = savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
   <link rel="stylesheet" href="styles.css">
   <title>Skill Unbound — Learn by building</title>
   <script type="application/ld+json">
@@ -31,6 +42,7 @@
       <a href="#/tools">Tools</a>
       <a href="#/about">About</a>
     </nav>
+    <button class="theme-toggle" id="themeToggle" type="button"><span class="theme-toggle-icon" aria-hidden="true">◐</span><span id="themeLabel">Ivory</span></button>
     <a class="button button-primary header-cta" href="#/roadmap">Build my roadmap</a>
   </header>
 

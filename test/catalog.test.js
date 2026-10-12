@@ -1,7 +1,11 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const data = require('../data.js');
 const youtube = require('../youtube-data.js');
+
+const projectRoot = path.resolve(__dirname, '..');
 
 test('launch catalog has 42 curated paths and 8 original courses', () => {
   assert.equal(data.paths.length, 50);
@@ -99,4 +103,19 @@ test('the five ClickUp browser-tool tasks are represented', () => {
   ]);
   assert.equal(data.dsaSets.blind75.problems.length, 75);
   assert.equal(data.dsaSets.neetcode150.problems.length, 150);
+});
+
+test('production UI includes the Ivory and Charcoal Study Hall themes', () => {
+  const html = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');
+  const css = fs.readFileSync(path.join(projectRoot, 'styles.css'), 'utf8');
+  const app = fs.readFileSync(path.join(projectRoot, 'app.js'), 'utf8');
+
+  assert.match(html, /id="themeToggle"/);
+  assert.match(html, /prefers-color-scheme: dark/);
+  assert.match(css, /--page: #f2eee5/);
+  assert.match(css, /:root\[data-theme="dark"\]/);
+  assert.match(css, /--page: #151819/);
+  assert.match(css, /--gold-fill: #e5b747/);
+  assert.match(app, /skillunbound\.theme/);
+  assert.match(app, /Learn with intent/);
 });

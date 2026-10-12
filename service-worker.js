@@ -1,4 +1,4 @@
-const CACHE = 'skillunbound-v5';
+const CACHE = 'skillunbound-v6';
 const APP_SHELL = ['/', '/index.html', '/styles.css', '/youtube-data.js', '/data.js', '/app.js', '/manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {
