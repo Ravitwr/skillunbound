@@ -69,6 +69,8 @@ test('all existing Dropout Developer YouTube lessons are assigned to curricula',
 
     for (const video of videos) {
       assert.match(video.videoId, /^[A-Za-z0-9_-]{11}$/);
+      assert.ok(video.title.length > 8, video.videoId);
+      assert.doesNotMatch(video.title, /^(Dropout )?video lesson/i, video.videoId);
       assert.equal(video.url, `https://www.youtube.com/watch?v=${video.videoId}`);
       assert.equal(video.embedUrl, `https://www.youtube-nocookie.com/embed/${video.videoId}`);
       assert.match(video.thumbnail, /^https:\/\/i\.ytimg\.com\/vi\//);
@@ -82,6 +84,9 @@ test('all existing Dropout Developer YouTube lessons are assigned to curricula',
       .map((resource) => resource.videoId);
     assert.deepEqual(new Set(assignedVideoIds), new Set(videos.map((video) => video.videoId)), path.id);
   }
+
+  const nodePath = data.paths.find((item) => item.id === 'nodejs');
+  assert.equal(nodePath.resources.find((resource) => resource.videoId === 'fgTGADljAeg').title, 'Build A REST API With Node.js, Express, & MongoDB - Quick');
 });
 
 test('the five ClickUp browser-tool tasks are represented', () => {

@@ -123,12 +123,12 @@
   function resourceMarkup(resource) {
     if (resource.kind === 'YouTube video') {
       return `<li class="resource video-resource"><details class="video-disclosure" data-video>
-        <summary><span class="video-thumb"><img src="${safe(resource.thumbnail)}" alt="" loading="lazy"><span class="play-badge" aria-hidden="true">▶</span></span><span><strong>${safe(resource.title)}</strong><small>${safe(resource.creator)} · existing Dropout Developer lesson</small></span></summary>
+        <summary><span class="video-thumb"><img src="${safe(resource.thumbnail)}" alt="" loading="lazy"><span class="play-badge" aria-hidden="true">▶</span></span><span class="resource-copy"><strong>${safe(resource.title)}</strong><small>${safe(resource.creator)}</small></span><span class="resource-action">Watch</span></summary>
         <div class="video-frame"><iframe data-src="${safe(resource.embedUrl)}" title="${safe(resource.title)} by ${safe(resource.creator)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
-        <p class="video-links"><a href="${safe(resource.url)}" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a><span aria-hidden="true"> · </span><a href="${safe(resource.sourcePath)}" target="_blank" rel="noopener noreferrer">View original Dropout path ↗</a></p>
+        <p class="video-links"><a href="${safe(resource.url)}" target="_blank" rel="noopener noreferrer">YouTube ↗</a><a href="${safe(resource.sourcePath)}" target="_blank" rel="noopener noreferrer">Source path ↗</a></p>
       </details></li>`;
     }
-    return `<li class="resource"><a href="${safe(resource.url)}" target="_blank" rel="noopener noreferrer">${safe(resource.title)} ↗</a><small>${safe(resource.creator)} · ${safe(resource.kind)} · ${safe(resource.duration)} · ${safe(resource.access)}</small><small>Checked ${safe(resource.verifiedAt)}. ${safe(resource.attribution)}</small></li>`;
+    return `<li class="resource reference-resource"><a href="${safe(resource.url)}" target="_blank" rel="noopener noreferrer"><span class="resource-icon" aria-hidden="true">↗</span><span class="resource-copy"><strong>${safe(resource.title)}</strong><small>${safe(resource.creator)} · ${safe(resource.kind)}</small></span></a></li>`;
   }
 
   function renderPath(id) {
@@ -152,29 +152,31 @@
       const saved = progress.milestones[milestone.id] || {};
       const resources = milestone.resourceIndexes.map((resourceIndex) => path.resources[resourceIndex]).filter(Boolean);
       return `<details class="milestone ${saved.completed ? 'completed' : ''}" ${index === stats.done ? 'open' : ''}>
-        <summary><span class="milestone-index">${saved.completed ? '✓' : index + 1}</span><span><small>WEEK ${milestone.week}</small><h3>${safe(milestone.title)}</h3></span><span class="tag ${saved.completed ? 'tag-success' : ''}">${saved.completed ? 'Evidence saved' : 'Build checkpoint'}</span></summary>
-        <div class="milestone-body"><p><strong>Outcome:</strong> ${safe(milestone.outcome)}</p><p><strong>Deliverable:</strong> ${safe(milestone.deliverable)}</p><p><strong>Checkpoint:</strong> ${safe(milestone.checkpoint)}</p>
-          <div class="assessment-box"><p><strong>Hint:</strong> ${safe(milestone.hint)}</p><p><strong>Rubric:</strong> ${safe(milestone.rubric)}</p><strong>Verification tests</strong><ul>${milestone.tests.map((test) => `<li>${safe(test)}</li>`).join('')}</ul></div>
+        <summary><span class="milestone-index">${saved.completed ? '✓' : index + 1}</span><span><small>WEEK ${milestone.week} · ${resources.length} ${resources.length === 1 ? 'RESOURCE' : 'RESOURCES'}</small><h3>${safe(milestone.title)}</h3></span><span class="milestone-status">${saved.completed ? 'Complete' : 'View week'} →</span></summary>
+        <div class="milestone-body"><div class="build-brief"><span class="eyebrow">Build</span><p>${safe(milestone.deliverable)}</p></div>
+          <h4 class="lesson-heading">Lessons</h4>
           <ul class="resource-list">${resources.map(resourceMarkup).join('')}</ul>
-          <form class="evidence-form" data-evidence-form="${safe(milestone.id)}">
-            <label class="check-row"><input type="checkbox" name="resourceChecked" ${saved.resourceChecked ? 'checked' : ''}> <span>I reviewed the linked source and used it in the work. Opening a link alone does not complete this milestone.</span></label>
-            <div class="field"><label for="evidence-${safe(milestone.id)}">Portfolio evidence <span class="muted">(repository, artifact URL, test output, or a useful note)</span></label><textarea id="evidence-${safe(milestone.id)}" name="evidence" minlength="20" required>${safe(saved.evidence || '')}</textarea></div>
-            ${index === path.milestones.length - 1 ? `<div class="field"><label for="assessment-${safe(milestone.id)}">Capstone self-assessment</label><textarea id="assessment-${safe(milestone.id)}" name="selfAssessment" minlength="40" required placeholder="Assess the work against correctness, evidence, usability, and explanation.">${safe(saved.selfAssessment || '')}</textarea></div>` : ''}
-            <div class="inline-actions"><button class="button button-primary" type="submit">${saved.completed ? 'Update evidence' : 'Complete with evidence'}</button>${saved.completed ? '<button class="button button-quiet button-danger" type="button" data-reopen>Reopen milestone</button>' : ''}</div>
-          </form>
+          <details class="course-notes"><summary>Project brief and checks</summary><div><p>${safe(milestone.outcome)}</p><p><strong>Checkpoint:</strong> ${safe(milestone.checkpoint)}</p><p><strong>Tip:</strong> ${safe(milestone.hint)}</p><ul>${milestone.tests.map((test) => `<li>${safe(test)}</li>`).join('')}</ul><small>${safe(milestone.rubric)}</small></div></details>
+          <details class="evidence-panel"><summary><span>${saved.completed ? 'Update evidence' : 'Mark this week complete'}</span><small>Requires a link or useful note</small></summary>
+            <form class="evidence-form" data-evidence-form="${safe(milestone.id)}">
+              <label class="check-row"><input type="checkbox" name="resourceChecked" ${saved.resourceChecked ? 'checked' : ''}> <span>I used these lessons in my work.</span></label>
+              <div class="field"><label for="evidence-${safe(milestone.id)}">Evidence link or note</label><textarea id="evidence-${safe(milestone.id)}" name="evidence" minlength="20" required placeholder="Repository, artifact, test result, or a useful note">${safe(saved.evidence || '')}</textarea></div>
+              ${index === path.milestones.length - 1 ? `<div class="field"><label for="assessment-${safe(milestone.id)}">Capstone reflection</label><textarea id="assessment-${safe(milestone.id)}" name="selfAssessment" minlength="40" required placeholder="What works, what you verified, and what you would improve">${safe(saved.selfAssessment || '')}</textarea></div>` : ''}
+              <div class="inline-actions"><button class="button button-primary" type="submit">${saved.completed ? 'Save changes' : 'Complete week'}</button>${saved.completed ? '<button class="button button-quiet button-danger" type="button" data-reopen>Reopen</button>' : ''}</div>
+            </form>
+          </details>
         </div>
       </details>`;
     }).join('');
     main.innerHTML = `<div class="shell"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><a href="#/paths">Paths</a><span>/</span><span>${safe(path.title)}</span></nav>
       <section class="detail-hero"><div class="meta-row"><span class="tag ${path.contentType === 'Original course' ? 'tag-accent' : ''}">${safe(path.contentType)}</span><span class="tag">${safe(path.category)}</span><span class="tag">${safe(path.difficulty)}</span></div><h1>${safe(path.title)}</h1><p class="lede">${safe(path.summary)}</p></section>
-      <div class="detail-layout"><section><h2>Milestones and evidence</h2><p>${safe(path.completionRule)}</p><div class="milestone-list">${milestoneMarkup}</div></section>
+      <div class="detail-layout"><section class="course-plan"><div class="course-plan-head"><div><span class="eyebrow">Course plan</span><h2>${path.milestones.length} focused weeks</h2></div><p>Watch, build, and save one piece of evidence each week.</p></div><div class="milestone-list">${milestoneMarkup}</div></section>
       <aside class="detail-aside" aria-label="Path summary"><h2 style="font-size:1.45rem">Your progress</h2><div class="progress-meter" aria-label="${stats.percent}% complete"><span style="width:${stats.percent}%"></span></div><p><strong>${stats.done}/${stats.total}</strong> milestones complete</p><button class="button button-primary" id="enrollButton" type="button">${progress.enrolledAt ? 'Continue learning' : 'Enroll locally'}</button>
         <dl><dt>Duration</dt><dd>${path.weeks} weeks</dd><dt>Weekly time</dt><dd>${safe(path.hoursPerWeek)} hours</dd>${path.youtubeCount ? `<dt>Dropout videos</dt><dd>${path.youtubeCount}</dd>` : ''}<dt>Resources checked</dt><dd>${safe(path.verifiedAt)}</dd></dl>
         <h3>Prerequisites</h3><ul>${path.prerequisites.map((item) => `<li>${safe(item)}</li>`).join('')}</ul>
         ${path.prerequisitePathIds.length ? `<h3>Recommended first</h3><ul>${path.prerequisitePathIds.map((pathId) => { const prerequisite = data.paths.find((item) => item.id === pathId); return prerequisite ? `<li><a href="#/path/${safe(prerequisite.id)}">${safe(prerequisite.title)}</a></li>` : ''; }).join('')}</ul>` : ''}
-        <h3>Assessment</h3><p>${safe(path.assessment)}</p>
         <h3>Skills</h3><div class="meta-row">${path.skills.map((item) => `<span class="tag">${safe(item)}</span>`).join('')}</div>
-        ${path.referenceUrl ? `<p class="notice" style="margin-top:20px"><strong>Provenance:</strong> <a href="${safe(path.referenceUrl)}" target="_blank" rel="noopener noreferrer">reference inventory ↗</a><br><small>${safe(path.referencePurpose)}</small></p>` : `<p class="notice" style="margin-top:20px">${safe(path.referencePurpose)}</p>`}
+        <details class="side-details"><summary>Source and assessment</summary><p>${safe(path.assessment)}</p>${path.referenceUrl ? `<a href="${safe(path.referenceUrl)}" target="_blank" rel="noopener noreferrer">Original path inventory ↗</a>` : `<p>${safe(path.referencePurpose)}</p>`}</details>
       </aside></div></div>`;
 
     document.querySelectorAll('[data-video]').forEach((details) => {
